@@ -238,6 +238,28 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
     </div>
   </div>
 
+  <!-- -- AI SCOPING PAGE ----------------------------------------- -->
+  <div id="page-ai-scope" class="page">
+    <div style="max-width:680px;margin:0 auto;padding-top:1rem;">
+      <button class="btn-ghost" onclick="cancelAiScoping()" style="margin-bottom:1rem;">&larr; Back</button>
+      <h2 style="font-family:'DM Serif Display',serif;font-size:1.5rem;margin:0 0 .25rem;">Start a new project with AI</h2>
+      <p style="color:var(--muted);font-size:.9rem;margin:0 0 1.25rem;">
+        Describe what you are working on. The AI will only ever pull exact steps from the existing
+        playbook library -- it will not invent new step text -- and will show you the full proposed
+        list before anything is created.
+      </p>
+      <div id="ai-scope-thread" style="display:flex;flex-direction:column;gap:12px;margin-bottom:1rem;max-height:50vh;overflow-y:auto;"></div>
+      <div id="ai-scope-proposal" style="display:none;"></div>
+      <div style="display:flex;gap:8px;">
+        <textarea id="ai-scope-input" rows="2" placeholder="e.g. We are adding a mobile booking feature to our parks and rec software..."
+          style="flex:1;font-family:inherit;font-size:14px;border:1px solid var(--border-strong);border-radius:9px;padding:10px 12px;resize:vertical;outline:none;"
+          onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();sendAiScopingMessage();}"></textarea>
+        <button class="btn-primary" onclick="sendAiScopingMessage()" style="align-self:flex-end;">Send</button>
+      </div>
+      <div id="ai-scope-status" style="font-size:.8rem;color:var(--muted);margin-top:8px;min-height:1.2em;"></div>
+    </div>
+  </div>
+
   <!-- -- HOME PAGE ------------------------------------------- -->
   <div id="page-home" class="page">
     <div class="home-hero">
@@ -253,9 +275,27 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
         Allow Auto-Save
       </button>
+      <button class="btn-ghost" onclick="startAiScoping()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L9 9l-7 3 7 3 3 7 3-7 7-3-7-3z"/></svg>
+        New project with AI
+      </button>
     </div>
     <div style="text-align:center;margin-top:-.5rem;margin-bottom:1rem;">
       <span id="cloud-sync-ind" style="font-size:.75rem;color:var(--muted);">Connecting...</span>
+      <button onclick="toggleAiSettingsBox()" title="Set your Anthropic API key for AI drafting"
+        style="background:none;border:none;color:var(--faint);cursor:pointer;padding:2px;margin-left:8px;vertical-align:middle;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+      <div id="ai-settings-box" style="display:none;max-width:420px;margin:10px auto 0;text-align:left;border:1px solid var(--border);border-radius:9px;padding:12px 14px;background:var(--surface);">
+        <div style="font-size:.78rem;font-weight:600;margin-bottom:6px;">Anthropic API key</div>
+        <div style="font-size:.74rem;color:var(--muted);margin-bottom:8px;">Stays in this browser only -- never synced to the cloud.</div>
+        <input type="password" id="ai-key-input" placeholder="sk-ant-..."
+          style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid var(--border-strong);border-radius:7px;font-family:inherit;font-size:13px;outline:none;">
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="btn-primary" onclick="saveAiKeyFromBox()" style="font-size:12px;padding:6px 12px;">Save key</button>
+          <span id="ai-key-status" style="font-size:.74rem;color:var(--muted);align-self:center;"></span>
+        </div>
+      </div>
       <span id="signed-in-row" style="font-size:.75rem;color:var(--faint);margin-left:8px;">
         <span id="signed-in-email"></span>
         <button onclick="signOut()" style="background:none;border:none;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:inherit;font-family:inherit;margin-left:6px;">Sign out</button>
@@ -301,6 +341,25 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
       All steps complete &mdash; ready to ship!
     </div>
+
+    <div style="margin-bottom:1rem;">
+      <button class="btn-ghost" onclick="toggleProjectAiChat()" style="width:100%;justify-content:center;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L9 9l-7 3 7 3 3 7 3-7 7-3-7-3z"/></svg>
+        Ask AI about this project
+      </button>
+      <div id="project-ai-chat" style="display:none;border:1px solid var(--border);border-radius:11px;padding:14px 16px;margin-top:8px;background:var(--surface);">
+        <div id="project-ai-thread" style="display:flex;flex-direction:column;gap:10px;margin-bottom:10px;max-height:40vh;overflow-y:auto;"></div>
+        <div id="project-ai-proposal" style="display:none;"></div>
+        <div style="display:flex;gap:8px;">
+          <textarea id="project-ai-input" rows="2" placeholder="Ask a question about this project, or ask what steps might be missing..."
+            style="flex:1;font-family:inherit;font-size:13px;border:1px solid var(--border-strong);border-radius:9px;padding:8px 10px;resize:vertical;outline:none;box-sizing:border-box;"
+            onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();sendProjectAiMessage();}"></textarea>
+          <button class="btn-primary" onclick="sendProjectAiMessage()" style="align-self:flex-end;">Send</button>
+        </div>
+        <div id="project-ai-status" style="font-size:.78rem;color:var(--muted);margin-top:6px;min-height:1.1em;"></div>
+      </div>
+    </div>
+
     <div id="phases-container"></div></div>
       
     </div>
@@ -313,7 +372,22 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
     <div class="modal-card">
       <div class="modal-header">
         <div class="modal-title" id="modal-title"></div>
-        <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <button id="ask-ai-toggle-btn" onclick="toggleAskAi()" title="Ask AI to draft this"
+            style="display:none;align-items:center;gap:5px;font-family:inherit;font-size:12px;font-weight:500;background:var(--accent-light);color:var(--accent);border:none;border-radius:7px;padding:6px 10px;cursor:pointer;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L9 9l-7 3 7 3 3 7 3-7 7-3-7-3z"/></svg>
+            Ask AI
+          </button>
+          <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+        </div>
+      </div>
+      <div id="ask-ai-box" style="display:none;border-bottom:1px solid var(--border);padding:12px 1.25rem;background:var(--bg);">
+        <textarea id="ask-ai-input" rows="2" placeholder="Describe your situation in a sentence or two -- the more specific, the better the draft."
+          style="width:100%;box-sizing:border-box;font-family:inherit;font-size:13px;border:1px solid var(--border-strong);border-radius:8px;padding:8px 10px;resize:vertical;outline:none;"></textarea>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:8px;">
+          <button onclick="runAskAi()" style="font-family:inherit;font-size:12px;font-weight:500;background:var(--accent);color:#fff;border:none;border-radius:7px;padding:7px 14px;cursor:pointer;">Draft it</button>
+          <span id="ask-ai-status" style="font-size:12px;color:var(--muted);"></span>
+        </div>
       </div>
       <div class="modal-body" id="modal-body"></div>
     </div>
@@ -606,6 +680,693 @@ const DEFAULT_QS = [
 // MYREC_PHASES built dynamically from PHASES to save space
 var MYREC_IDS = {"1": ["1c"], "2": ["2a", "2b", "2c", "2d", "2e"], "3": ["3b", "3c", "3d", "3e", "3f"], "4": ["4b", "4d", "4e"], "5": ["5c", "5d"], "6": ["6a", "6b", "6d", "6e"], "7": ["7a", "7c", "7d", "7e"], "8": ["8a", "8b", "8c", "8d", "8e"], "9": ["9a", "9b", "9d", "9e", "9f", "9g"], "10": ["10b", "10d"], "11": ["11a", "11b", "11c", "11d", "11e", "11f"], "12": ["12a", "12b", "12c"], "13": ["13a", "13b", "13c", "13d", "13e"], "14": ["14a", "14b", "14c", "14d", "14e", "14f", "14g"], "15": ["15a", "15b", "15c", "15d"], "16": ["16a", "16b", "16c", "16d", "16e", "16f"], "17": ["17a", "17b", "17c", "17d", "17e"], "18": ["18a", "18b", "18c", "18d", "18e"], "19": ["19a", "19b", "19c", "19d", "19e"], "20": ["20a", "20b", "20c", "20d", "20e", "20f"], "28": ["28a", "28b", "28c", "28d", "28e", "28f"]};
 
+function buildStepLibrary(){
+  // Flatten PHASES into one searchable array: every real step, exact text,
+  // tagged with its chapter/phase context. This is the ONLY source an AI
+  // feature is allowed to pull step text from -- never invented content.
+  var lib = [];
+  PHASES.forEach(function(ph){
+    var tasks = ph.sections ? ph.sections.reduce(function(a,s){return a.concat(s.tasks);}, []) : (ph.tasks||[]);
+    tasks.forEach(function(t){
+      lib.push({
+        id: t.id,
+        title: t.title,
+        desc: t.desc,
+        modal: t.modal || 'generic',
+        chapter: ph.ch,
+        phaseId: ph.id,
+        phaseName: ph.name
+      });
+    });
+  });
+  return lib;
+}
+
+var STEP_LIBRARY = null;
+function getStepLibrary(){
+  if(!STEP_LIBRARY) STEP_LIBRARY = buildStepLibrary();
+  return STEP_LIBRARY;
+}
+
+function findStepsByChapter(chapter){
+  return getStepLibrary().filter(function(s){ return s.chapter.toLowerCase() === chapter.toLowerCase(); });
+}
+
+function findStepsByKeyword(keyword){
+  var kw = keyword.toLowerCase();
+  return getStepLibrary().filter(function(s){
+    return s.title.toLowerCase().indexOf(kw) >= 0 || s.desc.toLowerCase().indexOf(kw) >= 0;
+  });
+}
+
+function findStepById(id){
+  return getStepLibrary().find(function(s){ return s.id === id; }) || null;
+}
+
+function getStepsNotInProject(projectTaskIds){
+  var have = new Set(projectTaskIds);
+  return getStepLibrary().filter(function(s){ return !have.has(s.id); });
+}
+
+const MODAL_FIELD_SCHEMA = {
+  hypothesis: [
+    {label:'Persona / Customer Segment',field:'persona'},
+    {label:'The Pain / Problem',field:'pain'},
+    {label:'The Proposed Solution',field:'solution'},
+    {label:'Expected Outcome / Success Metric',field:'outcome'},
+    {label:'Trade-offs the Customer Must Accept',field:'tradeoffs'}
+  ],
+  why: [
+    {label:'Why does this company exist?',field:'why'},
+    {label:'How do we do it?',field:'how'},
+    {label:'What do we do?',field:'what'}
+  ],
+  fivec: [
+    {label:'Company',field:'company'},
+    {label:'Customers',field:'customers'},
+    {label:'Collaborators',field:'collaborators'},
+    {label:'Competitors',field:'competitors'},
+    {label:'Climate',field:'climate'}
+  ],
+  persona: [
+    {label:'Name and Role',field:'name'},
+    {label:'Their Goals',field:'goals'},
+    {label:'Key Pains / Problems',field:'pains'},
+    {label:'How They Measure Success',field:'success'},
+    {label:'Context and Constraints',field:'context'}
+  ],
+  nps: [
+    {label:'Promoters say...',field:'promoters'},
+    {label:'Detractors say...',field:'detractors'},
+    {label:'Action Items',field:'actions'}
+  ],
+  swot: [
+    {label:'Strengths',field:'s'},
+    {label:'Weaknesses',field:'w'},
+    {label:'Opportunities',field:'o'},
+    {label:'Threats',field:'t'}
+  ],
+  roi: [
+    {label:'Do First (Low effort, high value)',field:'tl'},
+    {label:'Plan Carefully (High effort, high value)',field:'tr'},
+    {label:'Fill-in Work (Low effort, low value)',field:'bl'},
+    {label:'Avoid (High effort, low value)',field:'br'}
+  ],
+  journey: [
+    {label:'Current State',field:'current'},
+    {label:'Journey Steps',field:'steps'},
+    {label:'Motivations',field:'motivations'},
+    {label:'Hindrances',field:'hindrances'},
+    {label:'Desired State',field:'desired'}
+  ],
+  vpc: [
+    {label:'Products and Services',field:'products'},
+    {label:'Customer Jobs',field:'jobs'},
+    {label:'Gain Creators',field:'gaincreat'},
+    {label:'Gains',field:'gains'},
+    {label:'Pain Relievers',field:'painrel'},
+    {label:'Pains',field:'pains'}
+  ],
+  bmc: [
+    {label:'Key Partners',field:'partners'},
+    {label:'Key Activities',field:'activities'},
+    {label:'Key Resources',field:'resources'},
+    {label:'Value Propositions',field:'value'},
+    {label:'Customer Relationships',field:'relationships'},
+    {label:'Channels',field:'channels'},
+    {label:'Customer Segments',field:'segments'},
+    {label:'Cost Structure',field:'costs'},
+    {label:'Revenue Streams',field:'revenue'}
+  ],
+  aarrr: [
+    {label:'Acquisition',field:'acquisition'},
+    {label:'Activation',field:'activation'},
+    {label:'Retention',field:'retention'},
+    {label:'Referral',field:'referral'},
+    {label:'Revenue',field:'revenue'}
+  ],
+  conclusions: [
+    {label:'Overall trend / summary',field:'summary'}
+  ],
+  pressrelease: [
+    {label:'Headline',field:'headline'},
+    {label:'Summary Paragraph',field:'summary'},
+    {label:'Problem',field:'problem'},
+    {label:'Solution',field:'solution'},
+    {label:'PM Quote',field:'pmquote'},
+    {label:'Customer Quote',field:'custquote'},
+    {label:'Conclusion and Call to Action',field:'cta'}
+  ],
+  productreview: [
+    {label:'What will a reviewer focus on?',field:'focus'},
+    {label:'What trade-offs does the product have?',field:'tradeoffs'},
+    {label:'Why should a customer choose this over competitors?',field:'differentiation'},
+    {label:'Reviewer conclusion',field:'conclusion'}
+  ],
+  mvpdefine: [
+    {label:'Overall goal and value statement',field:'goal'},
+    {label:'Feature list with reasons',field:'features'},
+    {label:'Features crossed out / cut (and why)',field:'cuts'},
+    {label:'Delighters to protect',field:'delighters'}
+  ],
+  prd: [
+    {label:'Project title',field:'title'},
+    {label:'Overview',field:'overview'},
+    {label:'Objectives',field:'objectives'},
+    {label:'Success metrics / KPIs',field:'metrics'},
+    {label:'Messaging',field:'messaging'},
+    {label:'Timeline / release planning',field:'timeline'},
+    {label:'Personas',field:'personas'},
+    {label:'Features IN',field:'featuresin'},
+    {label:'Features OUT',field:'featuresout'},
+    {label:'Open issues',field:'issues'},
+    {label:'Q and A',field:'qa'}
+  ],
+  moscow: [
+    {label:'Must Have -- required for the product to function',field:'must'},
+    {label:'Should Have -- valuable if time allows',field:'should'},
+    {label:'Could Have -- polish for a later version',field:'could'},
+    {label:'Will Not Have (Now) -- explicit exclusions',field:'wont'}
+  ],
+  simplifiedprd: [
+    {label:'Vision -- one sentence',field:'vision'},
+    {label:'Press release',field:'pressrelease'},
+    {label:'User stories with acceptance criteria',field:'stories'},
+    {label:'Screens to build',field:'screens'},
+    {label:'Functional requirements',field:'functional'},
+    {label:'Smart behaviors / response logic',field:'behaviors'},
+    {label:'Technical constraints -- what not to build',field:'constraints'},
+    {label:'Decision log',field:'decisions'}
+  ],
+  userscenarios: [
+    {label:'User scenario 1 -- Primary persona, primary use case',field:'s1'},
+    {label:'User scenario 2 -- Secondary persona or edge case',field:'s2'},
+    {label:'User scenario 3 -- Onboarding',field:'s3'}
+  ],
+  designbrief: [
+    {label:'UX goal',field:'goal'},
+    {label:'Key design constraints',field:'constraints'},
+    {label:'Primary persona the design must serve',field:'persona'},
+    {label:'How will we measure design success?',field:'success'}
+  ],
+  wireframes: [
+    {label:'What works?',field:'good'},
+    {label:'Friction points or concerns',field:'concerns'},
+    {label:'Questions for the design team',field:'questions'},
+    {label:'Engineering feasibility flags',field:'engflags'}
+  ],
+  usabilitytesting: [
+    {label:'Tasks given to testers',field:'tasks'},
+    {label:'Success rate per task',field:'results'},
+    {label:'Key friction points observed',field:'friction'},
+    {label:'Design changes to make',field:'changes'}
+  ],
+  designsprint: [
+    {label:'Sprint challenge',field:'challenge'},
+    {label:'Sprint team',field:'team'},
+    {label:'Understand -- key insights',field:'understand'},
+    {label:'Define -- focused problem',field:'define'},
+    {label:'Diverge -- key ideas',field:'diverge'},
+    {label:'Decide -- which idea won?',field:'decide'},
+    {label:'Prototype -- what was built?',field:'prototype'},
+    {label:'Test -- customer feedback',field:'test'}
+  ],
+  mvptypes: [
+    {label:'Which MVP type are you building and why?',field:'choice'},
+    {label:'What will you measure to determine success?',field:'metric'}
+  ],
+  backlog: [
+    {label:'Top Priority CRs',field:'top5'},
+    {label:'Icebox (not this cycle)',field:'icebox'},
+    {label:'Backlog health notes',field:'health'}
+  ],
+  engbalance: [
+    {label:'What is at risk this sprint?',field:'risk'},
+    {label:'What can be cut?',field:'cuts'},
+    {label:'What is the non-negotiable?',field:'fixed'},
+    {label:'Decision log',field:'decisions'}
+  ],
+  userstories: [
+    {label:'User stories with acceptance criteria',field:'stories'}
+  ]
+};
+
+// -- ASK AI --------------------------------------------------------------------
+function getApiKey(){
+  try{ return localStorage.getItem('pm_anthropic_key') || ''; }catch(e){ return ''; }
+}
+function setApiKey(k){
+  try{ localStorage.setItem('pm_anthropic_key', k); }catch(e){}
+}
+
+function toggleAiSettingsBox(){
+  var box = document.getElementById('ai-settings-box');
+  if(!box) return;
+  var show = box.style.display === 'none';
+  box.style.display = show ? 'block' : 'none';
+  if(show){
+    var input = document.getElementById('ai-key-input');
+    var existing = getApiKey();
+    if(input){ input.value = existing; }
+    var statusEl = document.getElementById('ai-key-status');
+    if(statusEl){ statusEl.textContent = existing ? 'A key is currently saved.' : 'No key saved yet.'; }
+  }
+}
+
+function saveAiKeyFromBox(){
+  var input = document.getElementById('ai-key-input');
+  var statusEl = document.getElementById('ai-key-status');
+  var k = (input.value || '').trim();
+  setApiKey(k);
+  // Read it back to confirm the save actually landed in storage, rather than
+  // just assuming setApiKey succeeded silently.
+  var confirmRead = getApiKey();
+  if(confirmRead === k && k){
+    statusEl.textContent = 'Saved.';
+  } else if(!k){
+    statusEl.textContent = 'Key cleared.';
+  } else {
+    statusEl.textContent = 'Could not save -- your browser may be blocking storage.';
+  }
+}
+
+var currentModalTask = null; // {id, modal} of whatever task is open in the modal
+
+function toggleAskAi(){
+  var box = document.getElementById('ask-ai-box');
+  if(!box) return;
+  var show = box.style.display === 'none';
+  box.style.display = show ? 'block' : 'none';
+  if(show){
+    var ta = document.getElementById('ask-ai-input');
+    if(ta) ta.focus();
+  }
+}
+
+function runAskAi(){
+  var key = getApiKey();
+  var statusEl = document.getElementById('ask-ai-status');
+  if(!key){
+    statusEl.textContent = 'Add your Anthropic API key first (gear icon, top right) to use this.';
+    return;
+  }
+  if(!currentModalTask){ return; }
+  var task = findStepById(currentModalTask.id) || findTask(currentModalTask.id);
+  var modal = currentModalTask.modal;
+  var schema = MODAL_FIELD_SCHEMA[modal];
+  var userPrompt = (document.getElementById('ask-ai-input').value || '').trim();
+  if(!schema){
+    statusEl.textContent = 'This step type does not support AI drafting yet.';
+    return;
+  }
+  if(!userPrompt){
+    statusEl.textContent = 'Describe your situation first, even briefly.';
+    return;
+  }
+
+  statusEl.textContent = 'Thinking...';
+  var fieldDescriptions = schema.map(function(f){ return '- ' + f.field + ': ' + f.label; }).join('\n');
+
+  // Pull lightweight project context so the draft is grounded, not generic.
+  var proj = getProject(currentProjectId);
+  var contextBits = [];
+  if(proj.name) contextBits.push('Project: ' + proj.name);
+  Object.keys(proj.data || {}).forEach(function(k){
+    if(k === modal) return; // don't echo back the same workspace we're filling
+    var v = proj.data[k];
+    if(v && typeof v === 'object'){
+      var vals = Object.values(v).filter(function(x){ return typeof x === 'string' && x.trim(); });
+      if(vals.length) contextBits.push(k + ': ' + vals.join(' / ').slice(0, 200));
+    }
+  });
+  var contextText = contextBits.length ? ('\n\nExisting project context (for grounding only):\n' + contextBits.slice(0,6).join('\n')) : '';
+
+  var systemPrompt = 'You are helping a product manager fill in a structured worksheet field for the step "' + task.title + '". ' +
+    'The step is described as: ' + task.desc + '. ' +
+    'Return ONLY a JSON object with these exact keys, each a string value, nothing else, no markdown fences:\n' + fieldDescriptions;
+
+  fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1200,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userPrompt + contextText }]
+    })
+  }).then(function(r){ return r.json(); }).then(function(res){
+    if(res.error){ statusEl.textContent = 'Error: ' + res.error.message; return; }
+    var text = (res.content && res.content[0] && res.content[0].text) || '';
+    var cleaned = text.replace(/```json|```/g, '').trim();
+    var draft;
+    try{ draft = JSON.parse(cleaned); }catch(e){
+      statusEl.textContent = 'Could not parse AI response. Try rephrasing.';
+      return;
+    }
+    var storeKey = modal;
+    var d = getKey(storeKey) || {};
+    schema.forEach(function(f){
+      if(draft[f.field] !== undefined && String(draft[f.field]).trim()){
+        d[f.field] = draft[f.field];
+      }
+    });
+    setKey(storeKey, d);
+    statusEl.textContent = 'Draft added below -- review and edit as needed.';
+    // Re-render the modal body so the new values show up in the textareas.
+    document.getElementById('modal-body').innerHTML = buildModalHTML(modal, currentModalTask.id);
+    rewireModalExtras();
+  }).catch(function(e){
+    statusEl.textContent = 'Request failed: ' + e.message;
+  });
+}
+
+// -- AI PROJECT SCOPING ---------------------------------------------------------
+var aiScopeHistory = []; // [{role, content}] for the Anthropic API
+var aiScopeProposedSteps = null; // last proposed step id list, pending approval
+
+function startAiScoping(){
+  aiScopeHistory = [];
+  aiScopeProposedSteps = null;
+  document.getElementById('ai-scope-thread').innerHTML = '';
+  document.getElementById('ai-scope-proposal').style.display = 'none';
+  document.getElementById('ai-scope-proposal').innerHTML = '';
+  document.getElementById('ai-scope-input').value = '';
+  document.getElementById('ai-scope-status').textContent = '';
+  if(!getApiKey()){
+    document.getElementById('ai-scope-status').textContent = 'Add your Anthropic API key first (gear icon on the home page).';
+  }
+  showPage('ai-scope');
+  addAiScopeBubble('assistant', 'Tell me what you are working on -- the product, the problem, who it is for, anything relevant. I will ask a couple of questions if I need to, then propose a set of steps pulled from the existing playbook.');
+}
+
+function cancelAiScoping(){
+  showPage('home');
+}
+
+function addAiScopeBubble(role, text){
+  var thread = document.getElementById('ai-scope-thread');
+  var bubble = document.createElement('div');
+  var isUser = role === 'user';
+  bubble.style.cssText = 'max-width:85%;padding:10px 13px;border-radius:11px;font-size:13.5px;line-height:1.5;white-space:pre-wrap;' +
+    (isUser ? 'align-self:flex-end;background:var(--accent);color:#fff;' : 'align-self:flex-start;background:var(--bg);color:var(--text);border:1px solid var(--border);');
+  bubble.textContent = text;
+  thread.appendChild(bubble);
+  thread.scrollTop = thread.scrollHeight;
+}
+
+function sendAiScopingMessage(){
+  var input = document.getElementById('ai-scope-input');
+  var text = (input.value || '').trim();
+  var statusEl = document.getElementById('ai-scope-status');
+  if(!text) return;
+  var key = getApiKey();
+  if(!key){ statusEl.textContent = 'Add your Anthropic API key first (gear icon on the home page).'; return; }
+
+  addAiScopeBubble('user', text);
+  aiScopeHistory.push({ role: 'user', content: text });
+  input.value = '';
+  statusEl.textContent = 'Thinking...';
+  document.getElementById('ai-scope-proposal').style.display = 'none';
+
+  // Build a compact catalog of the library for the model to choose from:
+  // id, title, chapter only (not full desc) to keep the prompt a reasonable size.
+  var catalog = getStepLibrary().map(function(s){ return s.id + ' | ' + s.chapter + ' | ' + s.title; }).join('\n');
+
+  var systemPrompt = 'You are helping a product manager scope a new project from an existing playbook of ' + getStepLibrary().length + ' steps. ' +
+    'You may ONLY recommend steps that exist in the catalog below by their exact id -- never invent new step text or new step ids. ' +
+    'If you need more information to scope well, ask ONE clarifying question. ' +
+    'Once you have enough context, propose a curated list of step ids that fit this project. ' +
+    'Respond with ONLY a JSON object, no markdown fences, in exactly one of these two shapes:\n' +
+    '{"type":"question","text":"..."}\n' +
+    '{"type":"proposal","summary":"one sentence summary of the project","stepIds":["1a","2b", ...]}\n\n' +
+    'Catalog (id | chapter | title):\n' + catalog;
+
+  fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 2000,
+      system: systemPrompt,
+      messages: aiScopeHistory
+    })
+  }).then(function(r){ return r.json(); }).then(function(res){
+    statusEl.textContent = '';
+    if(res.error){ statusEl.textContent = 'Error: ' + res.error.message; return; }
+    var raw = (res.content && res.content[0] && res.content[0].text) || '';
+    var cleaned = raw.replace(/```json|```/g, '').trim();
+    var parsed;
+    try{ parsed = JSON.parse(cleaned); }catch(e){
+      addAiScopeBubble('assistant', raw); // fall back to showing raw text rather than failing silently
+      aiScopeHistory.push({ role: 'assistant', content: raw });
+      return;
+    }
+    aiScopeHistory.push({ role: 'assistant', content: raw });
+
+    if(parsed.type === 'question'){
+      addAiScopeBubble('assistant', parsed.text);
+    } else if(parsed.type === 'proposal'){
+      renderAiScopeProposal(parsed);
+    } else {
+      addAiScopeBubble('assistant', raw);
+    }
+  }).catch(function(e){
+    statusEl.textContent = 'Request failed: ' + e.message;
+  });
+}
+
+function renderAiScopeProposal(parsed){
+  var validIds = parsed.stepIds.filter(function(id){ return !!findStepById(id); });
+  aiScopeProposedSteps = validIds;
+
+  addAiScopeBubble('assistant', parsed.summary + '\n\nProposed ' + validIds.length + ' steps -- review the exact list below before creating the project.');
+
+  var steps = validIds.map(findStepById);
+  var byChapter = {};
+  steps.forEach(function(s){
+    if(!byChapter[s.chapter]) byChapter[s.chapter] = [];
+    byChapter[s.chapter].push(s);
+  });
+
+  var html = '<div style="border:1px solid var(--border);border-radius:11px;padding:14px 16px;background:var(--bg);margin-bottom:12px;">';
+  html += '<div style="font-weight:600;font-size:13px;margin-bottom:10px;">Proposed steps (' + validIds.length + ')</div>';
+  Object.keys(byChapter).forEach(function(ch){
+    html += '<div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:10px 0 4px;">' + ch + '</div>';
+    byChapter[ch].forEach(function(s){
+      html += '<div style="font-size:13px;padding:3px 0;">' + s.title + '</div>';
+    });
+  });
+  html += '<div style="display:flex;gap:8px;margin-top:14px;">' +
+    '<button class="btn-primary" onclick="approveAiScopeProposal()">Create this project</button>' +
+    '<button class="btn-ghost" onclick="rejectAiScopeProposal()">Keep refining</button>' +
+    '</div></div>';
+
+  var box = document.getElementById('ai-scope-proposal');
+  box.innerHTML = html;
+  box.style.display = 'block';
+}
+
+function rejectAiScopeProposal(){
+  document.getElementById('ai-scope-proposal').style.display = 'none';
+  aiScopeProposedSteps = null;
+  addAiScopeBubble('assistant', 'No problem -- tell me what to change and I will revise the proposal.');
+}
+
+function approveAiScopeProposal(){
+  if(!aiScopeProposedSteps || !aiScopeProposedSteps.length) return;
+  var id = 'proj_' + Date.now();
+  var ids = new Set(aiScopeProposedSteps);
+  var customPhases = [];
+  PHASES.forEach(function(ph){
+    var tasks = ph.sections ? ph.sections.reduce(function(a,s){return a.concat(s.tasks);}, []) : (ph.tasks||[]);
+    var keep = tasks.filter(function(t){ return ids.has(t.id); });
+    if(keep.length){
+      customPhases.push({
+        id: 'ai_' + ph.id, label: ph.label, ch: ph.ch, name: ph.name, bg: ph.bg, tc: ph.tc, tasks: keep
+      });
+    }
+  });
+  var app = loadApp();
+  app.projects[id] = {
+    id: id, name: '', phaseSet: 'custom', customPhases: customPhases,
+    checks: {}, data: {}, created: Date.now(), updated: Date.now()
+  };
+  saveApp(app);
+  openProject(id);
+}
+
+// -- PER-PROJECT AI CHAT ---------------------------------------------------------
+var projectAiHistory = {}; // keyed by projectId so switching projects keeps separate threads
+var projectAiProposedSteps = null;
+
+function toggleProjectAiChat(){
+  var box = document.getElementById('project-ai-chat');
+  if(!box) return;
+  var show = box.style.display === 'none';
+  box.style.display = show ? 'block' : 'none';
+  if(show && !projectAiHistory[currentProjectId]){
+    projectAiHistory[currentProjectId] = [];
+    addProjectAiBubble('assistant', 'Ask me anything about this project, or ask what steps might be worth adding. I will only ever suggest exact steps from the playbook library and show you the full text before adding anything.');
+  }
+}
+
+function addProjectAiBubble(role, text){
+  var thread = document.getElementById('project-ai-thread');
+  var bubble = document.createElement('div');
+  var isUser = role === 'user';
+  bubble.style.cssText = 'max-width:90%;padding:9px 12px;border-radius:10px;font-size:13px;line-height:1.5;white-space:pre-wrap;' +
+    (isUser ? 'align-self:flex-end;background:var(--accent);color:#fff;' : 'align-self:flex-start;background:var(--bg);color:var(--text);border:1px solid var(--border);');
+  bubble.textContent = text;
+  thread.appendChild(bubble);
+  thread.scrollTop = thread.scrollHeight;
+}
+
+function buildProjectContextSummary(proj){
+  var bits = [];
+  if(proj.name) bits.push('Project name: ' + proj.name);
+  var src = getProjectPhases(proj);
+  var allIds = [];
+  src.forEach(function(ph){
+    var tasks = ph.sections ? ph.sections.reduce(function(a,s){return a.concat(s.tasks);}, []) : (ph.tasks||[]);
+    tasks.forEach(function(t){ allIds.push(t.id); });
+  });
+  bits.push('This project currently has ' + allIds.length + ' steps.');
+  var done = Object.keys(proj.checks||{}).filter(function(k){ return proj.checks[k]; }).length;
+  bits.push(done + ' of those are marked complete.');
+  Object.keys(proj.data || {}).forEach(function(k){
+    var v = proj.data[k];
+    if(v && typeof v === 'object'){
+      var vals = Object.values(v).filter(function(x){ return typeof x === 'string' && x.trim(); });
+      if(vals.length) bits.push(k + ': ' + vals.join(' / ').slice(0, 250));
+    }
+  });
+  return { summary: bits.join('\n'), allIds: allIds };
+}
+
+function sendProjectAiMessage(){
+  var input = document.getElementById('project-ai-input');
+  var text = (input.value || '').trim();
+  var statusEl = document.getElementById('project-ai-status');
+  if(!text) return;
+  var key = getApiKey();
+  if(!key){ statusEl.textContent = 'Add your Anthropic API key first (gear icon on the home page).'; return; }
+
+  addProjectAiBubble('user', text);
+  if(!projectAiHistory[currentProjectId]) projectAiHistory[currentProjectId] = [];
+  projectAiHistory[currentProjectId].push({ role: 'user', content: text });
+  input.value = '';
+  statusEl.textContent = 'Thinking...';
+  document.getElementById('project-ai-proposal').style.display = 'none';
+
+  var proj = getProject(currentProjectId);
+  var ctx = buildProjectContextSummary(proj);
+  var missing = getStepsNotInProject(ctx.allIds);
+  var missingCatalog = missing.map(function(s){ return s.id + ' | ' + s.chapter + ' | ' + s.title; }).join('\n');
+
+  var systemPrompt = 'You are answering questions about a specific product project and may recommend additional steps from the playbook library. ' +
+    'You may ONLY ever recommend steps by their exact id from the "steps not yet in this project" list below -- never invent new step text or ids. ' +
+    'If the question is just informational, answer directly in plain text. ' +
+    'If you are recommending one or more additional steps, respond with ONLY a JSON object, no markdown fences: ' +
+    '{"type":"proposal","reason":"why these steps would help","stepIds":["6k", ...]}\n' +
+    'Otherwise respond with plain text (not JSON).\n\n' +
+    'Current project context:\n' + ctx.summary + '\n\n' +
+    'Steps not yet in this project (id | chapter | title):\n' + missingCatalog;
+
+  fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1500,
+      system: systemPrompt,
+      messages: projectAiHistory[currentProjectId]
+    })
+  }).then(function(r){ return r.json(); }).then(function(res){
+    statusEl.textContent = '';
+    if(res.error){ statusEl.textContent = 'Error: ' + res.error.message; return; }
+    var raw = (res.content && res.content[0] && res.content[0].text) || '';
+    projectAiHistory[currentProjectId].push({ role: 'assistant', content: raw });
+
+    var cleaned = raw.replace(/```json|```/g, '').trim();
+    var parsed = null;
+    if(cleaned.indexOf('"type"') >= 0 && cleaned.indexOf('"proposal"') >= 0){
+      try{ parsed = JSON.parse(cleaned); }catch(e){ parsed = null; }
+    }
+
+    if(parsed && parsed.type === 'proposal'){
+      renderProjectAiProposal(parsed);
+    } else {
+      addProjectAiBubble('assistant', raw);
+    }
+  }).catch(function(e){
+    statusEl.textContent = 'Request failed: ' + e.message;
+  });
+}
+
+function renderProjectAiProposal(parsed){
+  var validIds = parsed.stepIds.filter(function(id){ return !!findStepById(id); });
+  if(!validIds.length){
+    addProjectAiBubble('assistant', parsed.reason || 'No valid steps to propose.');
+    return;
+  }
+  projectAiProposedSteps = validIds;
+
+  addProjectAiBubble('assistant', parsed.reason + '\n\nProposing ' + validIds.length + ' additional step(s) -- review below.');
+
+  var steps = validIds.map(findStepById);
+  var html = '<div style="border:1px solid var(--border);border-radius:9px;padding:10px 12px;background:var(--bg);margin-bottom:8px;">';
+  html += '<div style="font-weight:600;font-size:12px;margin-bottom:6px;">Proposed additions (' + validIds.length + ')</div>';
+  steps.forEach(function(s){
+    html += '<div style="font-size:12.5px;padding:2px 0;">' + s.title + ' <span style="color:var(--faint);">(' + s.chapter + ')</span></div>';
+  });
+  html += '<div style="display:flex;gap:8px;margin-top:10px;">' +
+    '<button class="btn-primary" onclick="approveProjectAiProposal()" style="font-size:12px;padding:6px 12px;">Add these steps</button>' +
+    '<button class="btn-ghost" onclick="rejectProjectAiProposal()" style="font-size:12px;padding:6px 12px;">No thanks</button>' +
+    '</div></div>';
+
+  var box = document.getElementById('project-ai-proposal');
+  box.innerHTML = html;
+  box.style.display = 'block';
+}
+
+function rejectProjectAiProposal(){
+  document.getElementById('project-ai-proposal').style.display = 'none';
+  projectAiProposedSteps = null;
+  addProjectAiBubble('assistant', 'Got it -- let me know if you want something else.');
+}
+
+function approveProjectAiProposal(){
+  if(!projectAiProposedSteps || !projectAiProposedSteps.length) return;
+  var proj = getProject(currentProjectId);
+  if(!proj.extraSteps) proj.extraSteps = [];
+  projectAiProposedSteps.forEach(function(id){
+    if(proj.extraSteps.indexOf(id) < 0) proj.extraSteps.push(id);
+  });
+
+  saveProject(proj);
+  document.getElementById('project-ai-proposal').style.display = 'none';
+  projectAiProposedSteps = null;
+  addProjectAiBubble('assistant', 'Added. Refreshing the step list now.');
+  openProject(currentProjectId);
+  var box = document.getElementById('project-ai-chat');
+  if(box) box.style.display = 'block';
+}
+
 function buildMyRecPhases(){
   var idx = {};
   PHASES.forEach(function(ph){
@@ -657,6 +1418,7 @@ function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
 // -- SUPABASE SYNC ------------------------------------------------------------
 var SUPABASE_URL = 'https://crnbecpbdupmeeadnijy.supabase.co';
 var SUPABASE_KEY = 'sb_publishable_40bIQ5yc4wxU9IB4MzIRdw_j5RV65pK';
+var SITE_URL = 'https://bbeno20.github.io/pm-playbook/';
 var _sb = null;
 var _sbReady = false;
 var _appCache = null;
@@ -685,7 +1447,7 @@ function sendMagicLink(){
   if(!_sb){ statusEl.textContent='Cloud sync is unavailable right now (Supabase client not initialized). You can continue without an account.'; return; }
   statusEl.textContent='Sending link...';
   try {
-    _sb.auth.signInWithOtp({ email: email, options:{ emailRedirectTo: window.location.href } }).then(function(res){
+    _sb.auth.signInWithOtp({ email: email, options:{ emailRedirectTo: SITE_URL } }).then(function(res){
       if(res.error){
         statusEl.textContent='Error: '+res.error.message+(res.error.status?' (status '+res.error.status+')':'');
         console.error('signInWithOtp error:', res.error);
@@ -880,11 +1642,51 @@ function createMyRecProject(){
   openProject(id);
 }
 
+function getProjectPhases(proj){
+  var base;
+  if(proj.phaseSet === 'myrec') base = buildMyRecPhases();
+  else if(proj.phaseSet === 'custom' && proj.customPhases) base = proj.customPhases;
+  else base = PHASES;
+
+  // extraSteps: ids approved via the per-project AI chat for projects whose
+  // base phase set is shared/curated (myrec) rather than per-project (custom).
+  // Standard projects already contain every step, so this is a no-op there.
+  if(proj.extraSteps && proj.extraSteps.length){
+    var have = new Set();
+    base.forEach(function(ph){
+      var tasks = ph.sections ? ph.sections.reduce(function(a,s){return a.concat(s.tasks);}, []) : (ph.tasks||[]);
+      tasks.forEach(function(t){ have.add(t.id); });
+    });
+    var toAdd = proj.extraSteps.filter(function(id){ return !have.has(id); });
+    if(toAdd.length){
+      base = base.slice(); // don't mutate the shared array (e.g. PHASES itself)
+      toAdd.forEach(function(id){
+        var step = findStepById(id);
+        if(!step) return;
+        var existing = base.find(function(ph){ return ph.name === step.phaseName; });
+        var taskObj = { id: step.id, title: step.title, desc: step.desc, modal: step.modal };
+        if(existing){
+          existing.tasks = (existing.tasks || []).concat([taskObj]);
+        } else {
+          var origPhase = PHASES.find(function(p){ return p.id === step.phaseId; });
+          base.push({
+            id: 'extra_' + step.phaseId, label: origPhase ? origPhase.label : step.phaseName,
+            ch: step.chapter, name: step.phaseName,
+            bg: origPhase ? origPhase.bg : '#F0F0F0', tc: origPhase ? origPhase.tc : '#555566',
+            tasks: [taskObj]
+          });
+        }
+      });
+    }
+  }
+  return base;
+}
+
 function openProject(id){
   try {
     currentProjectId=id;
     var proj=getProject(id);
-    currentPhases=(proj.phaseSet==='myrec')?buildMyRecPhases():PHASES;
+    currentPhases=getProjectPhases(proj);
     var inp=document.getElementById('project-name-input');
     if(inp) inp.value=proj.name||'';
     var sb=document.getElementById('save-name-btn');
@@ -947,7 +1749,7 @@ function renderHome(){
   empty.style.display='none'; label.style.display='block';
   grid.innerHTML='';
   projects.forEach(function(proj){
-    var pSrc=(proj.phaseSet==='myrec')?buildMyRecPhases():PHASES;
+    var pSrc=getProjectPhases(proj);
     var totalT=pSrc.reduce(function(a,p){return a+getAllIds(p).length;},0);
     var done=Object.values(proj.checks||{}).filter(Boolean).length;
     var pct=totalT>0?Math.round(done/totalT*100):0;
@@ -1129,9 +1931,20 @@ function findTask(id){
   return {id:id,title:'',desc:'',modal:'generic'};
 }
 
+function rewireModalExtras(){
+  var hp=document.getElementById('hyp-prev');
+  if(hp){refreshHyp();document.querySelectorAll('.hyp-field textarea').forEach(function(el){el.addEventListener('input',refreshHyp);});}
+  var rab=document.getElementById('rm-add');if(rab)rab.onclick=function(){addRoadmapRow();refreshEl('roadmap-list',renderRoadmapRows());};
+  var sab=document.getElementById('sc-add');if(sab)sab.onclick=function(){addScoringRow();refreshEl('scoring-list',renderScoringRows());};
+  var kab=document.getElementById('kano-add');if(kab)kab.onclick=function(){addKanoRow();refreshEl('kano-list',renderKanoRows());};
+  var qab=document.getElementById('q-add');if(qab)qab.onclick=function(){addInterviewQ();refreshEl('q-list',renderInterviewQs());};
+  var iab=document.getElementById('interview-add');if(iab)iab.onclick=function(){addInterview();refreshEl('interview-list',renderInterviewCards());};
+}
+
 function openModal(taskId,modalKey){
   try {
     var task=findTask(taskId);
+    currentModalTask = {id: taskId, modal: modalKey};
     var panel=document.getElementById('modal-panel');
     var container=document.getElementById('phases-container');
     // Move panel to body and position at current scroll
@@ -1144,13 +1957,12 @@ function openModal(taskId,modalKey){
     document.getElementById('modal-body').innerHTML=buildModalHTML(modalKey,taskId);
     panel.classList.add('open');
     document.body.style.overflow='hidden';
-    var hp=document.getElementById('hyp-prev');
-    if(hp){refreshHyp();document.querySelectorAll('.hyp-field textarea').forEach(function(el){el.addEventListener('input',refreshHyp);});}
-    var rab=document.getElementById('rm-add');if(rab)rab.onclick=function(){addRoadmapRow();refreshEl('roadmap-list',renderRoadmapRows());};
-    var sab=document.getElementById('sc-add');if(sab)sab.onclick=function(){addScoringRow();refreshEl('scoring-list',renderScoringRows());};
-    var kab=document.getElementById('kano-add');if(kab)kab.onclick=function(){addKanoRow();refreshEl('kano-list',renderKanoRows());};
-    var qab=document.getElementById('q-add');if(qab)qab.onclick=function(){addInterviewQ();refreshEl('q-list',renderInterviewQs());};
-    var iab=document.getElementById('interview-add');if(iab)iab.onclick=function(){addInterview();refreshEl('interview-list',renderInterviewCards());};
+    rewireModalExtras();
+    var aiBtn=document.getElementById('ask-ai-toggle-btn');
+    if(aiBtn){ aiBtn.style.display = MODAL_FIELD_SCHEMA[modalKey] ? 'inline-flex' : 'none'; }
+    var aiBox=document.getElementById('ask-ai-box'); if(aiBox) aiBox.style.display='none';
+    var aiInput=document.getElementById('ask-ai-input'); if(aiInput) aiInput.value='';
+    var aiStatus=document.getElementById('ask-ai-status'); if(aiStatus) aiStatus.textContent='';
   } catch(e){ console.warn('Modal error:',e.message); }
 }
 
@@ -1578,7 +2390,7 @@ function generatePptx(){
   }
   var proj=getProject(currentProjectId);
   // Build task list from current phases
-  var phases = (proj.phaseSet==='myrec') ? buildMyRecPhases() : PHASES;
+  var phases = getProjectPhases(proj);
   var taskList = [];
   phases.forEach(function(ph){
     var tasks = ph.sections ? ph.sections.reduce(function(a,s){return a.concat(s.tasks);}, []) : (ph.tasks||[]);
