@@ -2092,6 +2092,20 @@ function refreshSlidePreview(){
   renderPreviewNav();
 }
 
+function refreshSlidePreviewInPlace(){
+  // Rebuilds the slide list and re-renders whichever slide is currently on
+  // screen, without requiring a modal to be open -- used when something
+  // project-level changes (like the project name on the cover slide) while
+  // the preview panel may already be showing a slide from a prior session.
+  var container = document.getElementById('slide-preview-content');
+  if(!container) return;
+  previewSlideList = buildPreviewSlideList();
+  if(!previewSlideList.length){ return; }
+  if(previewSlideIndex >= previewSlideList.length) previewSlideIndex = 0;
+  container.innerHTML = previewSlideList[previewSlideIndex].html;
+  renderPreviewNav();
+}
+
 // Event delegation: 'blur' does not bubble, 'focusout' does -- this single
 // listener catches every field inside any modal without needing to touch
 // the dozens of individual field-rendering functions.
@@ -2544,6 +2558,7 @@ function saveName(){
   var sb=document.getElementById('save-name-btn');
   if(sb) sb.classList.remove('visible');
   showSaved();
+  refreshSlidePreviewInPlace();
 }
 function deleteCurrentProject(){
   var proj=getProject(currentProjectId);
