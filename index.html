@@ -57,12 +57,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 }
 .present-mode-overlay.open{display:flex;}
 .present-mode-slide-wrap{
-  width:min(92vw,1100px);aspect-ratio:16/9;background:#fff;border-radius:6px;
-  overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.4);position:relative;
+  width:96vw;height:calc(96vw * 9 / 16);max-height:90vh;max-width:calc(90vh * 16 / 9);
+  background:#fff;border-radius:4px;overflow:hidden;box-shadow:0 10px 60px rgba(0,0,0,.5);
+  position:relative;font-size:max(14px, 2.2vw);
 }
 .present-mode-slide-wrap .preview-slide{
-  width:333.33%;height:333.33%;aspect-ratio:unset;margin-bottom:0;box-shadow:none;border:none;
-  transform:scale(.3);transform-origin:top left;
+  width:100%;height:100%;aspect-ratio:unset;margin-bottom:0;box-shadow:none;border:none;
 }
 .present-mode-close{
   position:absolute;top:18px;right:18px;background:rgba(255,255,255,.12);border:none;color:#fff;
@@ -75,7 +75,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 }
 .present-mode-nav button{background:none;border:none;color:#fff;cursor:pointer;padding:4px;display:flex;}
 @media (min-width:1180px){
-  .mobile-preview-btn{display:none;}
+  .mobile-preview-btn{display:none !important;}
 }
 @media (min-width:1180px){
   .project-split{
@@ -2508,7 +2508,7 @@ function previewSlideHTML(title, modal, data, taskId, templateId){
   var rows = [];
   function pushRow(label, val){
     if(!val) return;
-    rows.push('<div style="margin-bottom:13px;"><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#'+tpl.txtColor+';margin-bottom:2px;">'+esc(label)+'</div><div style="font-size:14px;color:#'+tpl.txtColor+';line-height:1.45;">'+esc(val)+'</div></div>');
+    rows.push('<div style="margin-bottom:.8em;"><div style="font-size:.69em;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#'+tpl.txtColor+';margin-bottom:.12em;">'+esc(label)+'</div><div style="font-size:.875em;color:#'+tpl.txtColor+';line-height:1.45;">'+esc(val)+'</div></div>');
   }
 
   if(['generic','notes','interviewqs','wireframes','rams','mvptypes','kano','methodology','sprint','kanban','agencyflags'].indexOf(modal) >= 0 && modal !== 'rams'){
@@ -2536,15 +2536,15 @@ function previewSlideHTML(title, modal, data, taskId, templateId){
   if(!rows.length) return null;
 
   var dotsHTML = tpl.showDots
-    ? '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#'+tpl.accentColor+';"></span>' +
-      '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#'+tpl.accentColor+';"></span>' +
-      '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#'+tpl.accentColor+';"></span>'
+    ? '<span style="display:inline-block;width:.44em;height:.44em;border-radius:50%;background:#'+tpl.accentColor+';"></span>' +
+      '<span style="display:inline-block;width:.44em;height:.44em;border-radius:50%;background:#'+tpl.accentColor+';"></span>' +
+      '<span style="display:inline-block;width:.44em;height:.44em;border-radius:50%;background:#'+tpl.accentColor+';"></span>'
     : '';
 
-  return '<div class="preview-slide" style="padding:26px;box-sizing:border-box;">' +
-    '<div style="display:flex;align-items:center;gap:6px;margin-bottom:14px;">' +
+  return '<div class="preview-slide" style="padding:1.625em;box-sizing:border-box;">' +
+    '<div style="display:flex;align-items:center;gap:.375em;margin-bottom:.875em;">' +
     dotsHTML +
-    '<span style="font-size:18px;font-weight:600;color:#'+tpl.accentColor+';font-family:inherit;margin-left:'+(tpl.showDots?'6px':'0')+';">'+esc(title)+'</span>' +
+    '<span style="font-size:1.125em;font-weight:600;color:#'+tpl.accentColor+';font-family:inherit;margin-left:'+(tpl.showDots?'.375em':'0')+';">'+esc(title)+'</span>' +
     '</div>' +
     rows.join('') +
     '</div>';
@@ -2554,9 +2554,9 @@ var previewSlideList = []; // [{html, title}] for the current project, in deck o
 var previewSlideIndex = 0;
 
 function buildPreviewCoverHTML(proj, tpl){
-  return '<div class="preview-slide" style="position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;background-image:url(data:image/jpeg;base64,'+tpl.coverBgB64+');background-size:cover;background-position:center;padding:26px;box-sizing:border-box;">' +
-    '<div style="font-size:28px;font-weight:600;color:#FFFFFF;text-align:center;font-family:inherit;">'+esc(proj.name || 'Untitled project')+'</div>' +
-    '<div style="font-size:14px;color:#FFFFFF;text-align:center;margin-top:8px;font-family:inherit;">PM Product Playbook</div>' +
+  return '<div class="preview-slide" style="position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;background-image:url(data:image/jpeg;base64,'+tpl.coverBgB64+');background-size:cover;background-position:center;padding:1.625em;box-sizing:border-box;">' +
+    '<div style="font-size:1.75em;font-weight:600;color:#FFFFFF;text-align:center;font-family:inherit;">'+esc(proj.name || 'Untitled project')+'</div>' +
+    '<div style="font-size:.875em;color:#FFFFFF;text-align:center;margin-top:.5em;font-family:inherit;">PM Product Playbook</div>' +
     '</div>';
 }
 
