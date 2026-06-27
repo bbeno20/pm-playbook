@@ -62,6 +62,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     display:block;flex:1;min-width:460px;
     border:1px solid var(--border);border-radius:12px;background:var(--surface);
     padding:20px;align-self:flex-start;
+    position:sticky;top:1.5rem;max-height:calc(100vh - 3rem);overflow-y:auto;
+    z-index:1;
   }
   .preview-title{font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin-bottom:12px;}
   .preview-slide{
@@ -249,7 +251,7 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
 
 
 
-.modal-panel{display:none;position:absolute;left:0;right:0;background:rgba(20,18,15,.55);z-index:9999;min-height:100%;padding:2rem 1rem;box-sizing:border-box;}
+.modal-panel{display:none;position:absolute;left:0;right:0;background:rgba(20,18,15,.55);z-index:99999;min-height:100%;padding:2rem 1rem;box-sizing:border-box;}
 .modal-panel.open{display:flex;align-items:flex-start;justify-content:center;}
 .modal-card{background:var(--surface);border-radius:16px;max-width:680px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.22);overflow:hidden;margin:auto;}
 .modal-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem .75rem;border-bottom:1px solid var(--border);}
@@ -506,8 +508,19 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
 <div class="modal-panel" id="modal-panel" onclick="if(event.target===this)closeModal()">
     <div class="modal-card">
       <div class="modal-header">
-        <div class="modal-title" id="modal-title"></div>
-        <div style="display:flex;align-items:center;gap:6px;">
+        <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1;">
+          <input type="checkbox" id="modal-step-checkbox" onchange="toggleTaskFromModal()" title="Mark this step done" style="width:18px;height:18px;flex-shrink:0;accent-color:var(--accent);cursor:pointer;">
+          <div class="modal-title" id="modal-title" style="min-width:0;overflow:hidden;text-overflow:ellipsis;"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+          <button id="modal-prev-btn" onclick="goToAdjacentStep(-1)" title="Previous step"
+            style="display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--border-strong);border-radius:7px;width:30px;height:30px;cursor:pointer;color:var(--text);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button id="modal-next-btn" onclick="goToAdjacentStep(1)" title="Next step"
+            style="display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--border-strong);border-radius:7px;width:30px;height:30px;cursor:pointer;color:var(--text);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
           <button id="ask-ai-toggle-btn" onclick="toggleAskAi()" title="Ask AI to draft this"
             style="display:none;align-items:center;gap:5px;font-family:inherit;font-size:12px;font-weight:500;background:var(--accent-light);color:var(--accent);border:none;border-radius:7px;padding:6px 10px;cursor:pointer;">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L9 9l-7 3 7 3 3 7 3-7 7-3-7-3z"/></svg>
@@ -2623,6 +2636,22 @@ function closeMobilePreview(){
 // Event delegation: 'blur' does not bubble, 'focusout' does -- this single
 // listener catches every field inside any modal without needing to touch
 // the dozens of individual field-rendering functions.
+document.addEventListener('keydown', function(e){
+  if(e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  var modalPanel = document.getElementById('modal-panel');
+  if(!modalPanel || !modalPanel.classList.contains('open')) return;
+  // Never hijack arrow keys while the user is editing text -- that's
+  // normal cursor movement inside whatever field they're typing in, not a
+  // request to jump to a different step.
+  var active = document.activeElement;
+  if(active){
+    var tag = active.tagName;
+    if(tag === 'TEXTAREA' || tag === 'INPUT' || tag === 'SELECT' || active.isContentEditable) return;
+  }
+  e.preventDefault();
+  goToAdjacentStep(e.key === 'ArrowLeft' ? -1 : 1);
+});
+
 document.addEventListener('focusout', function(e){
   var tag = e.target.tagName;
   if(tag === 'TEXTAREA' || tag === 'INPUT' || tag === 'SELECT'){
@@ -3284,6 +3313,14 @@ function toggleTask(id){
   updateProgress();
 }
 
+function toggleTaskFromModal(){
+  // Calls the exact same toggleTask() used by the phase list's own checkbox,
+  // so the two are never two separate sources of truth -- just two views
+  // of the identical state[] entry for this step.
+  if(!currentModalTask) return;
+  toggleTask(currentModalTask.id);
+}
+
 function updateProgress(){
   var src=currentPhases||PHASES;
   var done=Object.values(state).filter(Boolean).length;
@@ -3377,6 +3414,35 @@ function buildPhasesUI(){
 }
 
 // -- MODAL ------------------------------------------------------------------
+function buildFlatStepList(){
+  // Flattens currentPhases (the per-project, already-curated phase set --
+  // standard, MyRec-curated, or AI-scoped custom) into one ordered list of
+  // every step that actually exists in THIS project. Used for step-to-step
+  // navigation, so a project that's missing steps never shows arrows
+  // pointing to something the client wasn't given.
+  var src = currentPhases || PHASES;
+  var flat = [];
+  src.forEach(function(p){
+    if(!p) return;
+    var tasks = p.sections ? p.sections.reduce(function(a,s){return a.concat(s.tasks);}, []) : (p.tasks||[]);
+    tasks.forEach(function(t){
+      if(t) flat.push({ id: t.id, modal: t.modal || 'generic', phaseId: p.id });
+    });
+  });
+  return flat;
+}
+
+function goToAdjacentStep(delta){
+  if(!currentModalTask) return;
+  var flat = buildFlatStepList();
+  var idx = flat.findIndex(function(s){ return s.id === currentModalTask.id; });
+  if(idx < 0) return;
+  var nextIdx = idx + delta;
+  if(nextIdx < 0 || nextIdx >= flat.length) return; // no wraparound -- stop at the ends
+  var nextStep = flat[nextIdx];
+  openModal(nextStep.id, nextStep.modal);
+}
+
 function findTask(id){
   var src=currentPhases||PHASES;
   for(var i=0;i<src.length;i++){
@@ -3412,8 +3478,28 @@ function openModal(taskId,modalKey){
     panel.style.minHeight=vpH+'px';
     document.getElementById('modal-title').textContent=task.title;
     document.getElementById('modal-body').innerHTML=buildModalHTML(modalKey,taskId);
+    var stepCb=document.getElementById('modal-step-checkbox');
+    if(stepCb) stepCb.checked = !!state[taskId];
+    var flatSteps=buildFlatStepList();
+    var stepIdx=flatSteps.findIndex(function(s){ return s.id===taskId; });
+    var prevBtn=document.getElementById('modal-prev-btn');
+    var nextBtn=document.getElementById('modal-next-btn');
+    if(prevBtn){
+      var atStart = stepIdx<=0;
+      prevBtn.disabled = atStart;
+      prevBtn.style.opacity = atStart ? '.35' : '1';
+      prevBtn.style.cursor = atStart ? 'default' : 'pointer';
+    }
+    if(nextBtn){
+      var atEnd = stepIdx<0 || stepIdx>=flatSteps.length-1;
+      nextBtn.disabled = atEnd;
+      nextBtn.style.opacity = atEnd ? '.35' : '1';
+      nextBtn.style.cursor = atEnd ? 'default' : 'pointer';
+    }
     panel.classList.add('open');
     document.body.style.overflow='hidden';
+    var previewPanelEl=document.getElementById('project-split-preview');
+    if(previewPanelEl) previewPanelEl.style.visibility='hidden';
     rewireModalExtras();
     var aiBtn=document.getElementById('ask-ai-toggle-btn');
     if(aiBtn){ aiBtn.style.display = (MODAL_FIELD_SCHEMA[modalKey] || FREE_TEXT_MODALS.indexOf(modalKey) >= 0 || STRUCTURED_MODAL_SPECS[modalKey]) ? 'inline-flex' : 'none'; }
@@ -3435,6 +3521,8 @@ function openModal(taskId,modalKey){
 function closeModal(){
   var panel=document.getElementById('modal-panel');
   if(panel) panel.classList.remove('open');
+  var previewPanelEl=document.getElementById('project-split-preview');
+  if(previewPanelEl) previewPanelEl.style.visibility='';
   var mobilePreviewOverlay = document.getElementById('mobile-preview-overlay');
   if(!mobilePreviewOverlay || !mobilePreviewOverlay.classList.contains('open')){
     document.body.style.overflow='';
