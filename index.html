@@ -3090,13 +3090,20 @@ function saveApp(d){
   showSaved();
   if(fileHandle){
     clearTimeout(saveDebounce);
-    saveDebounce=setTimeout(function(){writeToFile(d);},800);
+    saveDebounce=setTimeout(function(){writeToFile(_appCache);},800);
   }
   if(_sbReady){
     clearTimeout(_saveDebounceSb);
     _saveDebounceSb=setTimeout(function(){
-      // Sync every project (cheap upserts; only changed rows matter to Postgres)
-      Object.values(d.projects||{}).forEach(function(proj){ sbUpsertProject(proj); });
+      // Read _appCache fresh at fire-time rather than closing over the `d`
+      // passed into this specific saveApp() call. Multiple parts of the
+      // app can each call saveApp() in quick succession (a field blur, a
+      // delete, an autosave) and whichever one is scheduled LAST wins the
+      // shared timer slot -- but if an earlier call's closure still held a
+      // stale snapshot from before a delete, it could silently re-upload
+      // a project that had already been correctly removed. Always syncing
+      // whatever is actually current at fire-time closes that gap.
+      Object.values(_appCache.projects||{}).forEach(function(proj){ sbUpsertProject(proj); });
     }, 600);
   }
 }
