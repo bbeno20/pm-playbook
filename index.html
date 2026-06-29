@@ -2729,8 +2729,8 @@ function buildPreviewSlideList(){
       var taskId = task.id, taskTitle = task.title, modal = task.modal || 'generic';
       if(!deckHasData(modal, taskId, data)) return;
 
-      var isShared = DECK_SLIDE_BUILDERS[modal];
-      if(isShared){
+      var isTrueSharedModal = modal !== 'generic' && DECK_SLIDE_BUILDERS[modal];
+      if(isTrueSharedModal){
         if(renderedShared[modal]) return; // one slide per shared workspace, matches the real deck
         renderedShared[modal] = true;
       }
@@ -5690,12 +5690,18 @@ function generateDeckClientSide(projectName, payload, templateId){
     var taskId = task.id, taskTitle = task.title, modal = task.modal || 'generic';
     if(!deckHasData(modal, taskId, data)) return;
 
-    var builder = DECK_SLIDE_BUILDERS[modal];
-    if(builder){
+    // 'generic' is registered in DECK_SLIDE_BUILDERS (so the modal still
+    // has a real builder function), but unlike the true shared-workspace
+    // modals (why, persona, swot, etc. -- one object per whole project),
+    // each generic/notes step has its OWN independent data keyed by its
+    // taskId. Treating it as "render once per deck" was silently dropping
+    // every generic-type step after the first one in the entire project.
+    var isTrueSharedModal = modal !== 'generic' && DECK_SLIDE_BUILDERS[modal];
+    if(isTrueSharedModal){
       if(renderedShared[modal]) return; // one slide per shared workspace, not per task
-      var built = builder(pptx, taskTitle, data, taskId);
+      var built = isTrueSharedModal(pptx, taskTitle, data, taskId);
       if(built) renderedShared[modal] = true;
-    } else if(DECK_NOTES_MODALS.indexOf(modal) >= 0){
+    } else if(modal === 'generic' || DECK_NOTES_MODALS.indexOf(modal) >= 0){
       DECK_SLIDE_BUILDERS.generic(pptx, taskTitle, data, taskId);
     }
   });
