@@ -97,6 +97,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     position:sticky;top:1.5rem;max-height:calc(100vh - 3rem);overflow-y:auto;
     z-index:1;
   }
+  .project-split.preview-hidden{
+    width:100%;left:auto;right:auto;margin-left:0;margin-right:0;
+    justify-content:center;padding:0;
+  }
+  .project-split.preview-hidden .project-split-preview{display:none;}
+  #show-preview-btn{display:none;}
+  .project-split.preview-hidden #show-preview-btn{display:flex;}
   .preview-title{font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin-bottom:12px;}
   .preview-slide{
     aspect-ratio:16/9;background:#fff;border:1px solid var(--border);border-radius:8px;
@@ -435,6 +442,10 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
       <div id="pptx-box-wrap" style="margin:6px 0 0;padding:0;"></div>
 
     </div>
+    <div id="product-foundation-box" style="border:1px solid var(--border);border-radius:11px;padding:16px 18px;margin:0 0 1.5rem;background:var(--surface);">
+      <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin-bottom:10px;">Product foundation</div>
+      <div id="product-foundation-rows"></div>
+    </div>
     <div class="progress-section">
       <div class="progress-meta">
         <span class="progress-label">Overall progress</span>
@@ -501,8 +512,13 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
       </div>
     </div>
 
-    <div class="project-split">
+    <div class="project-split" id="project-split">
       <div class="project-split-phases">
+        <button id="show-preview-btn" onclick="showSlideDeckPreview()" title="Show the slide preview"
+          style="align-items:center;gap:5px;background:none;border:1px solid var(--border-strong);border-radius:7px;padding:5px 9px;font-size:11px;color:var(--text);cursor:pointer;font-family:inherit;margin-bottom:12px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          Show Slide Deck Preview
+        </button>
         <div id="phases-container"></div>
       </div>
       <div class="project-split-preview" id="project-split-preview">
@@ -513,6 +529,11 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
               style="display:flex;align-items:center;gap:5px;background:none;border:1px solid var(--border-strong);border-radius:7px;padding:5px 9px;font-size:11px;color:var(--text);cursor:pointer;font-family:inherit;">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
               Present
+            </button>
+            <button onclick="hideSlideDeckPreview()" title="Hide the slide preview"
+              style="display:flex;align-items:center;gap:5px;background:none;border:1px solid var(--border-strong);border-radius:7px;padding:5px 9px;font-size:11px;color:var(--text);cursor:pointer;font-family:inherit;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              Hide Slide Deck Preview
             </button>
             <div id="slide-preview-nav" style="display:flex;align-items:center;"></div>
           </div>
@@ -2560,6 +2581,27 @@ function buildPreviewCoverHTML(proj, tpl){
     '</div>';
 }
 
+function buildPreviewFoundationHTML(foundation, tpl){
+  var dotsHTML = tpl.showDots
+    ? '<span style="display:inline-block;width:.44em;height:.44em;border-radius:50%;background:#'+tpl.accentColor+';"></span>' +
+      '<span style="display:inline-block;width:.44em;height:.44em;border-radius:50%;background:#'+tpl.accentColor+';"></span>' +
+      '<span style="display:inline-block;width:.44em;height:.44em;border-radius:50%;background:#'+tpl.accentColor+';"></span>'
+    : '';
+
+  var rows = PRODUCT_FOUNDATION_FIELDS.map(function(f){
+    if(!foundation[f.key]) return '';
+    return '<div style="margin-bottom:.8em;"><div style="font-size:.69em;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:#'+tpl.txtColor+';margin-bottom:.12em;">'+esc(f.label)+'</div><div style="font-size:.875em;color:#'+tpl.txtColor+';line-height:1.45;">'+esc(foundation[f.key])+'</div></div>';
+  }).join('');
+
+  return '<div class="preview-slide" style="padding:1.625em;box-sizing:border-box;">' +
+    '<div style="display:flex;align-items:center;gap:.375em;margin-bottom:.875em;">' +
+    dotsHTML +
+    '<span style="font-size:1.125em;font-weight:600;color:#'+tpl.accentColor+';font-family:inherit;margin-left:'+(tpl.showDots?'.375em':'0')+';">Product Foundation</span>' +
+    '</div>' +
+    rows +
+    '</div>';
+}
+
 function buildPreviewSlideList(){
   var proj = getProject(currentProjectId);
   var phases = getProjectPhases(proj);
@@ -2572,6 +2614,14 @@ function buildPreviewSlideList(){
   // Cover slide, matching the real deck's first slide -- always present
   // regardless of whether any steps are filled in yet.
   slides.push({ html: buildPreviewCoverHTML(proj, tpl), title: 'Cover', taskId: null, modal: '__cover__' });
+
+  // Product foundation slide, matching the real deck's second slide --
+  // shown whenever at least one of the five questions has an answer.
+  var foundation = data.productFoundation || {};
+  var foundationHasContent = PRODUCT_FOUNDATION_FIELDS.some(function(f){ return foundation[f.key] && String(foundation[f.key]).trim(); });
+  if(foundationHasContent){
+    slides.push({ html: buildPreviewFoundationHTML(foundation, tpl), title: 'Product Foundation', taskId: null, modal: '__foundation__' });
+  }
 
   phases.forEach(function(ph){
     var tasks = ph.sections ? ph.sections.reduce(function(a,s){return a.concat(s.tasks);}, []) : (ph.tasks||[]);
@@ -2735,6 +2785,16 @@ function syncPresentModeSlide(){
   if(counter) counter.textContent = previewSlideList.length ? (previewSlideIndex+1) + ' / ' + previewSlideList.length : '';
 }
 
+function hideSlideDeckPreview(){
+  var split = document.getElementById('project-split');
+  if(split) split.classList.add('preview-hidden');
+}
+
+function showSlideDeckPreview(){
+  var split = document.getElementById('project-split');
+  if(split) split.classList.remove('preview-hidden');
+}
+
 function openPresentMode(){
   var overlay = document.getElementById('present-mode-overlay');
   if(!overlay) return;
@@ -2792,6 +2852,11 @@ document.addEventListener('focusout', function(e){
     var modalBody = document.getElementById('modal-body');
     if(modalBody && modalBody.contains(e.target)){
       refreshSlidePreview();
+      return;
+    }
+    var foundationRows = document.getElementById('product-foundation-rows');
+    if(foundationRows && foundationRows.contains(e.target)){
+      refreshSlidePreviewInPlace();
     }
   }
 });
@@ -3047,6 +3112,37 @@ function saveProject(proj){
   saveApp(app);
 }
 function getKey(k){var p=getProject(currentProjectId);return p.data?p.data[k]:null;}
+
+// -- PRODUCT FOUNDATION (pinned widget at top of each project) ---------------
+var PRODUCT_FOUNDATION_FIELDS = [
+  { key: 'why', label: 'Why', question: 'Why does this product exist?' },
+  { key: 'who', label: 'Who', question: 'Who is it built for?' },
+  { key: 'problem', label: 'Problem', question: 'What problem is it solving?' },
+  { key: 'value', label: 'Value', question: 'What value does it create?' },
+  { key: 'features', label: 'Features', question: 'How do its features support that purpose?' }
+];
+
+function renderProductFoundation(){
+  var container = document.getElementById('product-foundation-rows');
+  if(!container) return;
+  var data = getKey('productFoundation') || {};
+  container.innerHTML = PRODUCT_FOUNDATION_FIELDS.map(function(f){
+    return '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:9px;">' +
+      '<div style="font-weight:700;font-size:13px;min-width:78px;padding-top:8px;flex-shrink:0;">'+esc(f.label)+'</div>' +
+      '<input type="text" id="pf-input-'+f.key+'" placeholder="'+esc(f.question)+'" value="'+esc(data[f.key]||'')+'" ' +
+      'oninput="saveProductFoundationField(\''+f.key+'\', this.value)" ' +
+      'style="flex:1;box-sizing:border-box;padding:7px 10px;border:1px solid var(--border-strong);border-radius:7px;font-family:inherit;font-size:13px;outline:none;background:var(--bg);">' +
+      '</div>';
+  }).join('');
+}
+
+function saveProductFoundationField(key, value){
+  var data = getKey('productFoundation') || {};
+  data[key] = value;
+  setKey('productFoundation', data);
+  showSaved();
+}
+
 function setKey(k,v){var p=getProject(currentProjectId);if(!p.data)p.data={};p.data[k]=v;saveProject(p);}
 function saveField(sk,f,v){var d=getKey(sk)||{};d[f]=v;setKey(sk,d);}
 
@@ -3278,6 +3374,7 @@ function openProject(id){
     var sb=document.getElementById('save-name-btn');
     if(sb) sb.classList.remove('visible');
     syncProjectTemplateSelect(proj);
+    renderProductFoundation();
     buildPhasesUI();
     loadChecks();
     updateProgress();
@@ -3285,6 +3382,7 @@ function openProject(id){
     var searchInput=document.getElementById('project-search-input'); if(searchInput) searchInput.value='';
     var searchResults=document.getElementById('project-search-results'); if(searchResults){ searchResults.style.display='none'; searchResults.innerHTML=''; }
     currentModalTask = null;
+    showSlideDeckPreview();
     previewSlideList = [];
     previewSlideIndex = 0;
     writePreviewContentToAllTargets('<div class="preview-slide"><div class="preview-slide-empty">Fill in a step to see a slide preview here.</div></div>');
@@ -4828,6 +4926,31 @@ function generateDeckClientSide(projectName, payload, templateId){
 
   var renderedShared = {};
   var slideCount = 1;
+
+  // Product foundation slide -- always the second slide, right after the
+  // cover, if at least one of the five questions has been answered. Same
+  // label/value row pattern as every other slide for visual consistency.
+  var foundation = data.productFoundation || {};
+  var foundationHasContent = PRODUCT_FOUNDATION_FIELDS.some(function(f){ return foundation[f.key] && String(foundation[f.key]).trim(); });
+  if(foundationHasContent){
+    var fSlide = pptx.addSlide();
+    var fy = deckHdr(fSlide, 'Product Foundation');
+    var fy2 = fy;
+    PRODUCT_FOUNDATION_FIELDS.forEach(function(f){
+      if(!foundation[f.key]) return;
+      var text = String(foundation[f.key]);
+      // Body text is 15pt Open Sans Light at 9in width -- roughly 100
+      // characters fit per line at that size/width. Estimate wrapped
+      // lines from that, with enough room per line that one answer's
+      // wrap can never collide with the next field's label.
+      var estLines = Math.max(1, Math.ceil(text.length / 100));
+      var rowH = 0.3 + estLines * 0.26;
+      fSlide.addText(f.label, { x:0.5, y:fy2, w:9.0, h:0.26, fontFace:'Open Sans SemiBold', fontSize:12, bold:true, color:DECK_TXT });
+      fSlide.addText(text, { x:0.5, y:fy2+0.27, w:9.0, h:rowH-0.27, fontFace:'Open Sans Light', fontSize:15, color:DECK_TXT, valign:'top' });
+      fy2 += rowH + 0.12;
+    });
+    slideCount++;
+  }
 
   tasks.forEach(function(task){
     var taskId = task.id, taskTitle = task.title, modal = task.modal || 'generic';
