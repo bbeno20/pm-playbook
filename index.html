@@ -173,6 +173,9 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
 .modal-why{font-size:.82rem;color:var(--muted);line-height:1.6;margin-bottom:1.25rem;font-weight:300;border-left:2px solid var(--border);padding-left:.875rem}
 .modal-section-title{font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);margin:1.25rem 0 .6rem}
 .modal-section-title:first-of-type{margin-top:0}
+.modal-field{margin-top:1.5rem;}
+.modal-field:first-of-type{margin-top:0;}
+.modal-field-label{font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.3rem;line-height:1.3;}
 .graphic{background:var(--bg);border-radius:10px;padding:1.25rem;margin-bottom:1rem}
 .graphic svg{width:100%;height:auto;display:block}
 /* Tool styles */
@@ -299,34 +302,276 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
 .modal-close{background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:6px;font-size:1.2rem;line-height:1;}
 .modal-close:hover{background:var(--bg);}
 .modal-body{padding:1.25rem;}
+
+/* ---- Rich Text Editor ---- */
+.rte-wrap{margin-top:.4rem;border:1px solid var(--border);border-radius:8px;background:var(--bg);transition:border-color .2s;overflow:hidden;}
+.rte-wrap:focus-within{border-color:var(--accent);}
+.rte-toolbar{display:flex;align-items:center;gap:2px;padding:4px 6px;border-bottom:1px solid var(--border);background:var(--surface);flex-wrap:wrap;}
+.rte-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:3px 6px;border-radius:5px;font-size:.78rem;font-family:'DM Sans',sans-serif;line-height:1;transition:background .15s,color .15s;display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;}
+.rte-btn:hover{background:var(--border);color:var(--text);}
+.rte-btn.active{background:var(--accent-light);color:var(--accent);}
+.rte-sep{width:1px;height:16px;background:var(--border);margin:0 3px;flex-shrink:0;}
+.rte-body{width:100%;background:transparent;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--text);line-height:1.6;padding:.65rem;min-height:90px;overflow-y:auto;}
+.rte-body[contenteditable=true]:empty:before{content:attr(data-ph);color:var(--faint);pointer-events:none;}
+.rte-body img{max-width:100%;height:auto;border-radius:6px;margin:.25rem 0;display:block;}
+.rte-body a{color:var(--accent);text-decoration:underline;}
+/* ---- Slide Version Drawer ---- */
+.rte-drawer-toggle{display:flex;align-items:center;gap:6px;width:100%;background:none;border:none;border-top:1px solid var(--border);padding:5px 10px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.72rem;color:var(--muted);text-align:left;transition:background .15s;user-select:none;}
+.rte-drawer-toggle:hover{background:var(--bg);color:var(--text);}
+.rte-drawer-toggle.has-content{color:var(--accent);}
+.rte-slide-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;display:none;}
+.rte-drawer-toggle.has-content .rte-slide-dot{display:inline-block;}
+.rte-drawer-caret{margin-left:auto;font-size:.65rem;transition:transform .18s;color:var(--faint);}
+.rte-drawer-toggle.open .rte-drawer-caret{transform:rotate(180deg);}
+.rte-slide-drawer{border-top:1px solid var(--done-line);background:#F0FAF5;display:none;}
+.rte-slide-drawer.open{display:block;}
+.rte-slide-drawer-header{display:flex;align-items:center;gap:6px;padding:6px 10px;border-bottom:1px solid var(--done-line);}
+.rte-slide-drawer-hint{font-size:.68rem;color:var(--accent);font-style:italic;flex:1;}
+.rte-slide-action-btn{font-family:'DM Sans',sans-serif;font-size:.7rem;border-radius:5px;padding:3px 8px;cursor:pointer;border:1px solid var(--done-line);background:var(--surface);color:var(--accent);transition:background .15s;}
+.rte-slide-action-btn:hover{background:var(--accent-light);}
+.rte-slide-action-btn.danger{border-color:#FCA5A5;color:#991B1B;background:none;}
+.rte-slide-action-btn.danger:hover{background:#FEE2E2;}
+.rte-slide-ta{width:100%;box-sizing:border-box;background:transparent;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--text);line-height:1.6;resize:none;padding:.6rem .75rem;min-height:70px;}
+.rte-slide-toolbar{background:#E8F4EE;border-bottom:1px solid var(--done-line);}
+#hl-picker{position:fixed;z-index:999999;background:var(--surface);border:1px solid var(--border-strong);border-radius:9px;padding:7px 9px;box-shadow:0 6px 20px rgba(0,0,0,.15);display:none;align-items:center;gap:5px;}
+.hl-swatch{width:22px;height:22px;border-radius:50%;border:2px solid rgba(0,0,0,.12);cursor:pointer;flex-shrink:0;transition:transform .1s,box-shadow .1s;}
+.hl-swatch:hover{transform:scale(1.2);box-shadow:0 2px 6px rgba(0,0,0,.2);}
+.hl-clear{width:22px;height:22px;border-radius:50%;background:var(--surface);border:2px solid var(--border-strong);cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0;transition:transform .1s;}
+.hl-clear:hover{transform:scale(1.2);}
+/* Simplify step button */
+#simplify-step-btn{display:none;align-items:center;gap:5px;font-family:inherit;font-size:12px;font-weight:500;background:#FFF7ED;color:#92400E;border:none;border-radius:7px;padding:6px 10px;cursor:pointer;}
+#simplify-step-btn:hover{background:#FEF3C7;}
+.simplify-step-status{font-size:11px;color:var(--muted);margin-left:4px;}
 </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- -- LOGIN PAGE ------------------------------------------- -->
-  <div id="page-login" class="page active">
-    <div class="home-hero">
-      <h1>PM Product Playbook</h1>
-      <p>Sign in to sync your projects across any device</p>
-    </div>
-    <div style="max-width:380px;margin:2rem auto;text-align:center;">
+  <!-- -- LOGIN / MARKETING PAGE ------------------------------------------- -->
+  <div id="page-login" class="page active" style="width:100vw;position:relative;left:50%;margin-left:-50vw;padding:0;overflow-x:hidden;">
+
+    <!-- NAV -->
+    <nav style="position:sticky;top:0;z-index:100;background:rgba(247,245,240,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 5vw;">
+      <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;">
+        <span style="font-family:'DM Serif Display',serif;font-size:1.15rem;font-weight:400;color:var(--text);letter-spacing:-.01em;">PM Product Playbook</span>
+        <button onclick="openSigninModal()" style="font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 16px;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Sign in →</button>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section style="padding:6rem 5vw 5rem;text-align:center;max-width:800px;margin:0 auto;">
+      <div style="display:inline-block;background:var(--accent-light);color:var(--accent);font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:20px;padding:4px 14px;margin-bottom:1.5rem;">Built for Product Managers</div>
+      <h1 style="font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:400;letter-spacing:-.03em;line-height:1.08;color:var(--text);margin:0 0 1.25rem;">The complete playbook<br>for every product lifecycle</h1>
+      <p style="font-size:1.05rem;color:var(--muted);line-height:1.7;font-weight:300;max-width:580px;margin:0 auto 2.5rem;">From customer discovery to launch day — structured step-by-step guidance, AI-powered drafting, and presentation-ready slide decks, all in one place.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="openSigninModal()" style="font-family:'DM Sans',sans-serif;font-size:.92rem;font-weight:500;background:var(--accent);color:#fff;border:none;border-radius:10px;padding:13px 28px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+          Get started free
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <a href="#features" style="font-family:'DM Sans',sans-serif;font-size:.92rem;font-weight:400;background:var(--surface);color:var(--text);border:1px solid var(--border-strong);border-radius:10px;padding:13px 28px;text-decoration:none;" onmouseover="this.style.background='var(--border)'" onmouseout="this.style.background='var(--surface)'">See how it works</a>
+      </div>
+    </section>
+
+    <!-- PHASE STRIP -->
+    <section style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:2.5rem 5vw;">
+      <div style="max-width:1100px;margin:0 auto;">
+        <p style="text-align:center;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin:0 0 1.5rem;">7 chapters · 155 structured steps</p>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;">
+          <div style="text-align:center;padding:1rem .5rem;background:#D4E9F7;border-radius:10px;">
+            <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#1A4A6E;margin-bottom:4px;">01</div>
+            <div style="font-size:.78rem;font-weight:500;color:#1A4A6E;line-height:1.3;">Understand</div>
+            <div style="font-size:.65rem;color:#1A4A6E;opacity:.7;margin-top:3px;">Company &amp; customers</div>
+          </div>
+          <div style="text-align:center;padding:1rem .5rem;background:#DDD9F8;border-radius:10px;">
+            <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#3A2F8A;margin-bottom:4px;">02</div>
+            <div style="font-size:.78rem;font-weight:500;color:#3A2F8A;line-height:1.3;">Hypothesize</div>
+            <div style="font-size:.65rem;color:#3A2F8A;opacity:.7;margin-top:3px;">Find opportunities</div>
+          </div>
+          <div style="text-align:center;padding:1rem .5rem;background:#C8EDE0;border-radius:10px;">
+            <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#0D5038;margin-bottom:4px;">03</div>
+            <div style="font-size:.78rem;font-weight:500;color:#0D5038;line-height:1.3;">Validate</div>
+            <div style="font-size:.65rem;color:#0D5038;opacity:.7;margin-top:3px;">Test with users</div>
+          </div>
+          <div style="text-align:center;padding:1rem .5rem;background:#FDECC8;border-radius:10px;">
+            <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6B4200;margin-bottom:4px;">04</div>
+            <div style="font-size:.78rem;font-weight:500;color:#6B4200;line-height:1.3;">Execute</div>
+            <div style="font-size:.65rem;color:#6B4200;opacity:.7;margin-top:3px;">PRD &amp; planning</div>
+          </div>
+          <div style="text-align:center;padding:1rem .5rem;background:#FAD9CC;border-radius:10px;">
+            <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#7A2E14;margin-bottom:4px;">05</div>
+            <div style="font-size:.78rem;font-weight:500;color:#7A2E14;line-height:1.3;">Design</div>
+            <div style="font-size:.65rem;color:#7A2E14;opacity:.7;margin-top:3px;">Wireframes &amp; UX</div>
+          </div>
+          <div style="text-align:center;padding:1rem .5rem;background:#C8EDE0;border-radius:10px;">
+            <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#0D5038;margin-bottom:4px;">06</div>
+            <div style="font-size:.78rem;font-weight:500;color:#0D5038;line-height:1.3;">Engineer</div>
+            <div style="font-size:.65rem;color:#0D5038;opacity:.7;margin-top:3px;">Build &amp; ship</div>
+          </div>
+          <div style="text-align:center;padding:1rem .5rem;background:#DDD9F8;border-radius:10px;">
+            <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#3A2F8A;margin-bottom:4px;">07</div>
+            <div style="font-size:.78rem;font-weight:500;color:#3A2F8A;line-height:1.3;">Market</div>
+            <div style="font-size:.65rem;color:#3A2F8A;opacity:.7;margin-top:3px;">GTM &amp; launch</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" style="padding:6rem 5vw;max-width:1100px;margin:0 auto;">
+      <p style="text-align:center;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin:0 0 .75rem;">Features</p>
+      <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:400;text-align:center;letter-spacing:-.02em;color:var(--text);margin:0 0 4rem;">Everything a PM needs in one tool</h2>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;">
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:2rem;">
+          <div style="width:40px;height:40px;background:var(--accent-light);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <h3 style="font-size:1.05rem;font-weight:600;margin:0 0 .6rem;color:var(--text);">Step-by-step structure</h3>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.65;margin:0;">155 curated steps organized into 7 chapters. Each step has a framework, a workspace, and a clear explanation of why it matters — so nothing falls through the cracks.</p>
+        </div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:2rem;">
+          <div style="width:40px;height:40px;background:#EEF2FF;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L9 9l-7 3 7 3 3 7 3-7 7-3-7-3z"/></svg>
+          </div>
+          <h3 style="font-size:1.05rem;font-weight:600;margin:0 0 .6rem;color:var(--text);">AI drafting built in</h3>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.65;margin:0;">Ask AI to draft any step — hypothesis statements, personas, PRDs, user stories — in the context of your actual project. Approve, edit, or regenerate with one click.</p>
+        </div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:2rem;">
+          <div style="width:40px;height:40px;background:#FFF7ED;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C2410C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3 style="font-size:1.05rem;font-weight:600;margin:0 0 .6rem;color:var(--text);">One-click slide decks</h3>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.65;margin:0;">Every step you complete feeds directly into a polished PowerPoint deck. Live preview in the app, download in seconds. Your work becomes a presentation automatically.</p>
+        </div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:2rem;">
+          <div style="width:40px;height:40px;background:#F0FDF4;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </div>
+          <h3 style="font-size:1.05rem;font-weight:600;margin:0 0 .6rem;color:var(--text);">Rich notes &amp; formatting</h3>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.65;margin:0;">Each workspace supports bold, italic, links, color highlights, and inline images. Keep your full working notes exactly as you wrote them, separate from what goes on the slides.</p>
+        </div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:2rem;">
+          <div style="width:40px;height:40px;background:#FFF1F2;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#BE123C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 style="font-size:1.05rem;font-weight:600;margin:0 0 .6rem;color:var(--text);">Company &amp; team context</h3>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.65;margin:0;">Link projects to a shared company profile. Your customer research and company context flow into every new product automatically — no copy-pasting between projects.</p>
+        </div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:2rem;">
+          <div style="width:40px;height:40px;background:#ECFEFF;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E7490" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h3 style="font-size:1.05rem;font-weight:600;margin:0 0 .6rem;color:var(--text);">Slide version simplifier</h3>
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.65;margin:0;">Write detailed notes in the workspace. Hit Generate to produce a clean slide-ready summary — 3–5 bullets pulled from your content — without touching your original notes.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- QUOTE / SOCIAL PROOF -->
+    <section style="background:var(--accent);padding:5rem 5vw;text-align:center;">
+      <div style="max-width:680px;margin:0 auto;">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="rgba(255,255,255,.3)" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:1.5rem;"><path d="M9.33 8C5.27 8 2 11.27 2 15.33c0 4.07 3.27 7.34 7.33 7.34 1.43 0 2.77-.41 3.9-1.13-.7 3.14-3.1 5.62-6.23 6.5v2.63c5.47-1.1 9.33-5.93 9.33-11.67V8H9.33zm16 0c-4.06 0-7.33 3.27-7.33 7.33 0 4.07 3.27 7.34 7.33 7.34 1.43 0 2.77-.41 3.9-1.13-.7 3.14-3.1 5.62-6.23 6.5v2.63c5.47-1.1 9.33-5.93 9.33-11.67V8H25.33z"/></svg>
+        <p style="font-family:'DM Serif Display',serif;font-size:clamp(1.3rem,2.5vw,1.9rem);font-weight:400;color:#fff;line-height:1.5;margin:0 0 1.5rem;letter-spacing:-.01em;">"The playbook keeps me from skipping steps under pressure. The AI drafting cuts my prep time in half, and the slide deck is ready before the stakeholder meeting even starts."</p>
+        <p style="font-size:.82rem;color:rgba(255,255,255,.7);margin:0;font-weight:400;">Senior Product Manager · SaaS</p>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section style="padding:6rem 5vw;max-width:900px;margin:0 auto;">
+      <p style="text-align:center;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin:0 0 .75rem;">How it works</p>
+      <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:400;text-align:center;letter-spacing:-.02em;color:var(--text);margin:0 0 4rem;">Start a project, work through the steps</h2>
+
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <div style="display:grid;grid-template-columns:48px 1fr;gap:1.5rem;padding-bottom:2.5rem;position:relative;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="width:48px;height:48px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;font-weight:400;">1</span>
+            </div>
+            <div style="width:1px;flex:1;background:var(--border);margin-top:8px;"></div>
+          </div>
+          <div style="padding-top:10px;">
+            <h3 style="font-size:1rem;font-weight:600;margin:0 0 .4rem;color:var(--text);">Create a project</h3>
+            <p style="font-size:.875rem;color:var(--muted);line-height:1.6;margin:0;">Name your product, choose your phase set, and link it to a company profile if you have one. The full lifecycle is laid out and ready to go.</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:48px 1fr;gap:1.5rem;padding-bottom:2.5rem;position:relative;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="width:48px;height:48px;background:var(--accent-light);border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--accent);font-weight:400;">2</span>
+            </div>
+            <div style="width:1px;flex:1;background:var(--border);margin-top:8px;"></div>
+          </div>
+          <div style="padding-top:10px;">
+            <h3 style="font-size:1rem;font-weight:600;margin:0 0 .4rem;color:var(--text);">Work through each step</h3>
+            <p style="font-size:.875rem;color:var(--muted);line-height:1.6;margin:0;">Open any step to get the framework, a workspace with structured fields, and an AI assistant pre-loaded with your project context. Fill in what you know, ask AI to draft the rest.</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:48px 1fr;gap:1.5rem;padding-bottom:2.5rem;position:relative;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="width:48px;height:48px;background:var(--accent-light);border:2px solid var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--accent);font-weight:400;">3</span>
+            </div>
+            <div style="width:1px;flex:1;background:var(--border);margin-top:8px;"></div>
+          </div>
+          <div style="padding-top:10px;">
+            <h3 style="font-size:1rem;font-weight:600;margin:0 0 .4rem;color:var(--text);">Generate slide versions</h3>
+            <p style="font-size:.875rem;color:var(--muted);line-height:1.6;margin:0;">For each step, keep your full working notes in the main field. Use the Slide version drawer to generate clean bullet-point summaries that go directly into your deck.</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:48px 1fr;gap:1.5rem;">
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            <div style="width:48px;height:48px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span style="font-family:'DM Serif Display',serif;font-size:1.1rem;color:#fff;font-weight:400;">4</span>
+            </div>
+          </div>
+          <div style="padding-top:10px;">
+            <h3 style="font-size:1rem;font-weight:600;margin:0 0 .4rem;color:var(--text);">Download your deck</h3>
+            <p style="font-size:.875rem;color:var(--muted);line-height:1.6;margin:0;">One click exports a fully formatted PowerPoint presentation from everything you have completed. Walk into any stakeholder meeting ready.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIGN IN -->
+    <!-- FOOTER -->
+    <footer style="background:var(--text);padding:2rem 5vw;text-align:center;">
+      <span style="font-family:'DM Serif Display',serif;font-size:1rem;color:rgba(255,255,255,.5);font-weight:400;">PM Product Playbook</span>
+      <p style="font-size:.7rem;color:rgba(255,255,255,.3);margin:.5rem 0 0;">Built for product managers who ship.</p>
+    </footer>
+
+  </div>
+
+  <!-- SIGN-IN POPUP -->
+  <div id="signin-modal" onclick="if(event.target===this)closeSigninModal()" style="display:none;position:fixed;inset:0;background:rgba(20,18,15,.6);z-index:99999;align-items:center;justify-content:center;padding:1rem;">
+    <div style="background:var(--surface);border-radius:18px;width:100%;max-width:420px;padding:2.5rem;box-shadow:0 24px 60px rgba(0,0,0,.25);position:relative;animation:modalIn .2s ease;">
+      <button onclick="closeSigninModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--faint);font-size:1.3rem;line-height:1;padding:4px;">&times;</button>
+      <h2 style="font-family:'DM Serif Display',serif;font-size:1.75rem;font-weight:400;letter-spacing:-.02em;margin:0 0 .4rem;color:var(--text);">Get started today</h2>
+      <p style="font-size:.85rem;color:var(--muted);margin:0 0 1.75rem;line-height:1.6;">Free to use. Sign in with your email to sync your projects across any device.</p>
       <input type="email" id="login-email" placeholder="you@example.com"
-        style="width:100%;padding:12px 14px;border:1px solid var(--border-strong);border-radius:9px;font-family:inherit;font-size:14px;box-sizing:border-box;outline:none;"
-        onkeydown="if(event.key==='Enter')sendMagicLink();">
-      <button class="btn-primary" onclick="sendMagicLink()" style="width:100%;margin-top:10px;justify-content:center;">
+        style="width:100%;padding:13px 14px;border:1px solid var(--border-strong);border-radius:10px;font-family:inherit;font-size:14px;box-sizing:border-box;outline:none;background:var(--bg);"
+        onkeydown="if(event.key==='Enter')sendMagicLink();"
+        onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border-strong)'">
+      <button class="btn-primary" onclick="sendMagicLink()" style="width:100%;margin-top:10px;justify-content:center;padding:13px;font-size:.9rem;">
         Send me a sign-in link
       </button>
-      <div id="login-status" style="font-size:.8rem;color:var(--muted);margin-top:12px;min-height:1.2em;"></div>
-      <div style="font-size:.75rem;color:var(--faint);margin-top:20px;">
-        No password needed. We will email you a one-time link to sign in.
+      <div id="login-status" style="font-size:.8rem;color:var(--muted);margin-top:10px;min-height:1.2em;text-align:center;"></div>
+      <p style="font-size:.72rem;color:var(--faint);margin:12px 0 0;text-align:center;">No password needed — we'll email you a one-time link.</p>
+      <div style="display:flex;align-items:center;gap:12px;margin:18px 0;">
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+        <span style="font-size:.72rem;color:var(--faint);">or</span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
       </div>
-      <button class="btn-ghost" onclick="continueOffline()" style="width:100%;margin-top:24px;justify-content:center;">
+      <button onclick="continueOffline()" style="width:100%;font-family:inherit;font-size:.85rem;font-weight:400;background:none;color:var(--muted);border:1px solid var(--border-strong);border-radius:10px;padding:12px;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
         Continue without an account
       </button>
-      <div style="font-size:.72rem;color:var(--faint);margin-top:8px;">
-        Your work still saves on this device, but will not follow you to another device or browser.
-      </div>
+      <p style="font-size:.7rem;color:var(--faint);margin:8px 0 0;text-align:center;">Saves on this device only — won't sync across browsers.</p>
     </div>
   </div>
 
@@ -623,6 +868,10 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
             style="display:none;align-items:center;gap:5px;font-family:inherit;font-size:12px;font-weight:500;background:var(--accent-light);color:var(--accent);border:none;border-radius:7px;padding:6px 10px;cursor:pointer;">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L9 9l-7 3 7 3 3 7 3-7 7-3-7-3z"/></svg>
             Ask AI
+          </button>
+          <button id="simplify-step-btn" onclick="rteSimplifyStep()" title="Simplify all fields for PPTX/preview">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Simplify
           </button>
           <button class="modal-close" onclick="closeModal()">&#x2715;</button>
         </div>
@@ -1438,7 +1687,7 @@ function runAskAi(){
     if(k === modal) return; // don't echo back the same workspace we're filling
     var v = proj.data[k];
     if(v && typeof v === 'object'){
-      var vals = Object.values(v).filter(function(x){ return typeof x === 'string' && x.trim(); });
+      var vals = Object.values(v).filter(function(x){ return typeof x === 'string' && x.trim(); }).map(pv);
       if(vals.length) contextBits.push(k + ': ' + vals.join(' / ').slice(0, 200));
     }
   });
@@ -2670,13 +2919,13 @@ function previewSlideHTML(title, modal, data, taskId, templateId){
   }
 
   if(['generic','notes','interviewqs','wireframes','rams','mvptypes','kano','methodology','sprint','kanban','agencyflags'].indexOf(modal) >= 0 && modal !== 'rams'){
-    var nd = (data['note_'+taskId]||{}).notes || '';
+    var nd = pv((data['note_'+taskId]||{}).notes || '');
     if(nd) pushRow('NOTES', nd);
   } else {
     var d = data[modal] || {};
     var schema = MODAL_FIELD_SCHEMA[modal];
     if(schema){
-      schema.forEach(function(f){ if(d[f.field]) pushRow(f.label.toUpperCase(), d[f.field]); });
+      schema.forEach(function(f){ if(d[f.field]) pushRow(f.label.toUpperCase(), pv(d[f.field])); });
     } else if(modal === 'roadmap' && d.rows && d.rows.length){
       var now=d.rows.filter(function(r){return r.bucket==='now';}).map(function(r){return r.name;});
       var nxt=d.rows.filter(function(r){return r.bucket==='next';}).map(function(r){return r.name;});
@@ -2687,7 +2936,7 @@ function previewSlideHTML(title, modal, data, taskId, templateId){
     } else if(modal === 'scoring' && d.rows && d.rows.length){
       pushRow('OPPORTUNITIES', d.rows.map(function(r){return r.name+' ('+r.value+'/'+r.cost+')';}).join(', '));
     } else if(modal === 'swot'){
-      pushRow('STRENGTHS', d.s); pushRow('WEAKNESSES', d.w); pushRow('OPPORTUNITIES', d.o); pushRow('THREATS', d.t);
+      pushRow('STRENGTHS', pv(d.s)); pushRow('WEAKNESSES', pv(d.w)); pushRow('OPPORTUNITIES', pv(d.o)); pushRow('THREATS', pv(d.t));
     }
   }
 
@@ -2715,7 +2964,7 @@ function buildPreviewFoundationHTML(foundation, tpl){
 function buildPreviewSlideList(){
   var proj = getProject(currentProjectId);
   var phases = getProjectPhases(proj);
-  var data = proj.data || {};
+  var data = resolveSlideData(proj.data || {});
   var tpl = getProjectTemplate(proj);
 
   var slides = [];
@@ -3951,11 +4200,11 @@ function deckHasDataIgnoringInclude(modal, taskId, data){
   // is itself the thing the inclusion flag controls.
   if(DECK_NOTES_MODALS.indexOf(modal) >= 0){
     var nd = data['note_'+taskId] || {};
-    return !!(nd.notes && String(nd.notes).trim());
+    return !!(nd.notes && pv(String(nd.notes)).trim());
   }
   var d = data[modal];
   if(d && typeof d === 'object' && !Array.isArray(d)){
-    return Object.keys(d).some(function(k){ return d[k] && String(d[k]).trim(); });
+    return Object.keys(d).some(function(k){ return d[k] && pv(String(d[k])).trim(); });
   }
   if(Array.isArray(d)) return d.length > 0;
   return !!d;
@@ -4346,6 +4595,8 @@ function openModal(taskId,modalKey){
     rewireModalExtras();
     var aiBtn=document.getElementById('ask-ai-toggle-btn');
     if(aiBtn){ aiBtn.style.display = (MODAL_FIELD_SCHEMA[modalKey] || FREE_TEXT_MODALS.indexOf(modalKey) >= 0 || STRUCTURED_MODAL_SPECS[modalKey]) ? 'inline-flex' : 'none'; }
+    var simpBtn=document.getElementById('simplify-step-btn');
+    if(simpBtn){ simpBtn.style.display = getApiKey() ? 'inline-flex' : 'none'; }
     var aiBox=document.getElementById('ask-ai-box'); if(aiBox) aiBox.style.display='none';
     var aiInput=document.getElementById('ask-ai-input'); if(aiInput) aiInput.value='';
     var stalePreview=document.getElementById('ask-ai-structured-preview'); if(stalePreview) stalePreview.remove();
@@ -4359,6 +4610,20 @@ function openModal(taskId,modalKey){
     }
     refreshSlidePreview();
   } catch(e){ console.warn('Modal error:',e.message); }
+}
+
+function openSigninModal(){
+  var m=document.getElementById('signin-modal');
+  if(!m) return;
+  m.style.display='flex';
+  document.body.style.overflow='hidden';
+  setTimeout(function(){ var el=document.getElementById('login-email'); if(el) el.focus(); }, 80);
+}
+function closeSigninModal(){
+  var m=document.getElementById('signin-modal');
+  if(!m) return;
+  m.style.display='none';
+  document.body.style.overflow='';
 }
 
 function closeModal(){
@@ -4383,10 +4648,443 @@ function refreshHyp(){
 
 function refreshEl(id,html){var el=document.getElementById(id);if(el)el.innerHTML=html;}
 
-// helper: build a textarea that saves to a field
+// helper: build a textarea that saves to a field (kept for non-modal dynamic rows)
 function ta(sk,f,ph,rows){
   var v=(getKey(sk)||{})[f]||'';
   return '<textarea class="big-ta" rows="'+(rows||3)+'" placeholder="'+ph+'" oninput="saveField(\''+sk+'\',\''+f+'\',this.value)">'+v+'</textarea>';
+}
+
+// ---- RICH TEXT EDITOR (RTE) ------------------------------------------------
+// Replaces ta() in modal field builders. Stores HTML, not plain text.
+// Backward compat: plain text stored previously is displayed as-is (no tags to render).
+
+function rte(sk,f,ph,rows){
+  var stored = (getKey(sk)||{})[f]||'';
+  var slideV = (getKey(sk)||{})[f+'__slide']||'';
+  var rteId = 'rte_'+sk.replace(/[^a-z0-9]/gi,'_')+'_'+f;
+  var minH = Math.max(70, (rows||3)*28);
+  var hasSlide = slideV.trim().length > 0;
+  return '<div class="rte-wrap" data-sk="'+sk+'" data-f="'+f+'">'
+    +'<div class="rte-toolbar">'
+    +'<button type="button" class="rte-btn" onclick="rteCmd(this,\'bold\')" title="Bold"><b>B</b></button>'
+    +'<button type="button" class="rte-btn" onclick="rteCmd(this,\'italic\')" title="Italic"><i>I</i></button>'
+    +'<button type="button" class="rte-btn" onclick="rteCmd(this,\'underline\')" title="Underline"><u>U</u></button>'
+    +'<button type="button" class="rte-btn" onclick="rteCmd(this,\'strikethrough\')" title="Strikethrough"><s>S</s></button>'
+    +'<div class="rte-sep"></div>'
+    +'<button type="button" class="rte-btn" onclick="rteLink(this)" title="Insert link">&#x1F517;</button>'
+    +'<button type="button" class="rte-btn" onmousedown="event.preventDefault();rteOpenHlPicker(event,this,false)" title="Highlight text" style="font-size:.7rem;">H&#x25BE;</button>'
+    +'<div class="rte-sep"></div>'
+    +'<button type="button" class="rte-btn" onclick="rteImage(this)" title="Insert image">&#x1F5BC;&#xFE0F;</button>'
+    +'</div>'
+    +'<div class="rte-body" id="'+rteId+'" contenteditable="true" data-ph="'+ph.replace(/"/g,'&quot;')+'" '
+    +'style="min-height:'+minH+'px;" '
+    +'oninput="rteInput(this)" '
+    +'onpaste="rtePaste(event,this)" '
+    +'onkeydown="rteKeydown(event,this)">'
+    +stored
+    +'</div>'
+    // Drawer toggle
+    +'<button type="button" class="rte-drawer-toggle'+(hasSlide?' has-content':'')+(hasSlide?' open':'')+'" onclick="rteToggleDrawer(this)">'
+    +'<span class="rte-slide-dot"></span>'
+    +'<span>Slide version'+(hasSlide?' (active)':' — optional override for PPTX & preview')+'</span>'
+    +'<span class="rte-drawer-caret">▾</span>'
+    +'</button>'
+    // Drawer body
+    +'<div class="rte-slide-drawer'+(hasSlide?' open':'')+'">'
+    +'<div class="rte-slide-drawer-header">'
+    +'<span class="rte-slide-drawer-hint">Overrides main text in PPTX & preview. Leave blank to use main text.</span>'
+    +'<button type="button" class="rte-slide-action-btn" onclick="rteGenerateSlideField(this)">&#x26A1; Generate</button>'
+    +'<button type="button" class="rte-slide-action-btn danger" onclick="rteClearSlideField(this)">&#x2715; Clear</button>'
+    +'</div>'
+    // Slide version mini-RTE toolbar
+    +'<div class="rte-toolbar rte-slide-toolbar">'
+    +'<button type="button" class="rte-btn" onclick="rteSlideCmd(this,\'bold\')" title="Bold"><b>B</b></button>'
+    +'<button type="button" class="rte-btn" onclick="rteSlideCmd(this,\'italic\')" title="Italic"><i>I</i></button>'
+    +'<button type="button" class="rte-btn" onclick="rteSlideCmd(this,\'underline\')" title="Underline"><u>U</u></button>'
+    +'<button type="button" class="rte-btn" onclick="rteSlideCmd(this,\'strikethrough\')" title="Strikethrough"><s>S</s></button>'
+    +'<div class="rte-sep"></div>'
+    +'<button type="button" class="rte-btn" onclick="rteSlideLink(this)" title="Insert link">&#x1F517;</button>'
+    +'<button type="button" class="rte-btn" onmousedown="event.preventDefault();rteOpenHlPicker(event,this,true)" title="Highlight text" style="font-size:.7rem;">H&#x25BE;</button>'
+    +'<div class="rte-sep"></div>'
+    +'<button type="button" class="rte-btn" onclick="rteSlideImage(this)" title="Insert image">&#x1F5BC;&#xFE0F;</button>'
+    +'</div>'
+    +'<div class="rte-slide-body rte-body" contenteditable="true" data-ph="Simplified text for slides..." '
+    +'oninput="rteSlideBodyInput(this)" '
+    +'onpaste="rteSlideBodyPaste(event,this)" '
+    +'onkeydown="rteKeydown(event,this)" '
+    +'style="min-height:70px;background:transparent;">'
+    +slideV
+    +'</div>'
+    +'</div>'
+    +'</div>';
+}
+
+function rteGetWrap(el){
+  var n=el; while(n&&!n.classList.contains('rte-wrap'))n=n.parentNode; return n;
+}
+function rteGetBody(el){
+  // Only the main body, not the slide body
+  var w=rteGetWrap(el); return w?w.querySelector('.rte-body:not(.rte-slide-body)'):null;
+}
+function rteGetSlideBody(el){
+  var w=rteGetWrap(el); return w?w.querySelector('.rte-slide-body'):null;
+}
+function rteGetSk(wrap){ return wrap?wrap.dataset.sk:''; }
+function rteGetF(wrap){ return wrap?wrap.dataset.f:''; }
+
+function rteInput(el){
+  var w=rteGetWrap(el);
+  if(!w) return;
+  saveField(rteGetSk(w), rteGetF(w), el.innerHTML);
+  refreshSlidePreview();
+}
+
+// ---- Slide body RTE functions -----------------------------------------------
+
+function rteSlideBodyInput(el){
+  var w=rteGetWrap(el); if(!w) return;
+  var sk=rteGetSk(w), f=rteGetF(w);
+  saveField(sk, f+'__slide', el.innerHTML);
+  var hasContent = !!pv(el.innerHTML).trim();
+  var toggle=w.querySelector('.rte-drawer-toggle');
+  if(toggle){
+    toggle.classList.toggle('has-content', hasContent);
+    var lbl=toggle.querySelector('span:not(.rte-slide-dot):not(.rte-drawer-caret)');
+    if(lbl) lbl.textContent=hasContent?'Slide version (active)':'Slide version — optional override for PPTX & preview';
+  }
+  refreshSlidePreview();
+}
+
+function rteSlideBodyPaste(e, el){
+  var items=(e.clipboardData||{}).items||[];
+  for(var i=0;i<items.length;i++){
+    if(items[i].type.indexOf('image')!==-1){
+      e.preventDefault();
+      var blob=items[i].getAsFile();
+      var reader=new FileReader();
+      (function(b,element){
+        b.onload=function(ev){
+          element.focus();
+          document.execCommand('insertHTML',false,'<img src="'+ev.target.result+'" style="max-width:100%;height:auto;border-radius:6px;">');
+          rteSlideBodyInput(element);
+        };
+        b.readAsDataURL(blob);
+      })(reader, el);
+      return;
+    }
+  }
+  e.preventDefault();
+  var text=(e.clipboardData||{}).getData('text/plain')||'';
+  document.execCommand('insertText',false,text);
+  rteSlideBodyInput(el);
+}
+
+function rteSlideCmd(btn, cmd){
+  var body=rteGetSlideBody(btn); if(!body)return;
+  body.focus(); document.execCommand(cmd,false,null); rteSlideBodyInput(body);
+}
+function rteSlideLink(btn){
+  var body=rteGetSlideBody(btn); if(!body)return;
+  body.focus();
+  var sel=window.getSelection();
+  var selectedText=sel&&sel.toString?sel.toString():'';
+  var url=prompt('Enter URL:','https://');
+  if(!url||url==='https://') return;
+  if(!/^https?:\/\//i.test(url)) url='https://'+url;
+  if(selectedText){ document.execCommand('createLink',false,url); }
+  else { document.execCommand('insertHTML',false,'<a href="'+url+'" target="_blank">'+url+'</a>'); }
+  rteSlideBodyInput(body);
+}
+function rteSlideHighlight(btn){ /* replaced by rteOpenHlPicker */ }
+function rteSlideClearHighlight(btn){ /* replaced by rteOpenHlPicker */ }
+function rteSlideImage(btn){
+  var body=rteGetSlideBody(btn); if(!body)return;
+  var inp=document.createElement('input'); inp.type='file'; inp.accept='image/*';
+  inp.onchange=function(e){
+    var file=e.target.files[0]; if(!file)return;
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      body.focus();
+      document.execCommand('insertHTML',false,'<img src="'+ev.target.result+'" style="max-width:100%;height:auto;border-radius:6px;">');
+      rteSlideBodyInput(body);
+    };
+    reader.readAsDataURL(file);
+  };
+  inp.click();
+}
+
+function rteKeydown(e, el){
+  // Tab inserts 4 spaces instead of shifting focus
+  if(e.key==='Tab'){
+    e.preventDefault();
+    document.execCommand('insertText', false, '    ');
+  }
+}
+
+function rteCmd(btn, cmd){
+  var body=rteGetBody(btn); if(!body)return;
+  body.focus();
+  document.execCommand(cmd, false, null);
+  rteInput(body);
+}
+
+function rteLink(btn){
+  var body=rteGetBody(btn); if(!body)return;
+  body.focus();
+  var sel=window.getSelection();
+  var selectedText = sel&&sel.toString ? sel.toString() : '';
+  var url=prompt('Enter URL:', 'https://');
+  if(!url||url==='https://') return;
+  if(!/^https?:\/\//i.test(url)) url='https://'+url;
+  if(selectedText){
+    document.execCommand('createLink', false, url);
+  } else {
+    document.execCommand('insertHTML', false, '<a href="'+url+'" target="_blank">'+url+'</a>');
+  }
+  rteInput(body);
+}
+
+function rteHighlight(btn){ /* replaced by rteOpenHlPicker */ }
+function rteClearHighlight(btn){ /* replaced by rteOpenHlPicker */ }
+
+// ---- Highlight color picker -------------------------------------------------
+var _hlIsSlide = false;
+
+function rteOpenHlPicker(e, btn, isSlide){
+  var picker = document.getElementById('hl-picker');
+  if(!picker) return;
+  // Toggle: if already showing for this button, close it
+  if(picker.style.display === 'flex' && picker._triggerBtn === btn){
+    picker.style.display = 'none'; return;
+  }
+  _hlIsSlide = isSlide;
+  picker._triggerBtn = btn;
+  var rect = btn.getBoundingClientRect();
+  picker.style.top = (rect.bottom + 5) + 'px';
+  picker.style.left = rect.left + 'px';
+  picker.style.display = 'flex';
+  // Close on next outside click
+  setTimeout(function(){
+    document.addEventListener('mousedown', function closeHl(ev){
+      if(!picker.contains(ev.target) && ev.target !== btn){
+        picker.style.display = 'none';
+      }
+      document.removeEventListener('mousedown', closeHl);
+    });
+  }, 0);
+}
+
+function rteApplyHL(swatchBtn, color){
+  var picker = document.getElementById('hl-picker');
+  var triggerBtn = picker ? picker._triggerBtn : null;
+  if(!triggerBtn) return;
+  // Find the right body from the trigger button
+  var body = _hlIsSlide ? rteGetSlideBody(triggerBtn) : rteGetBody(triggerBtn);
+  if(!body) return;
+  // Focus is still on the body since we used preventDefault on mousedown
+  body.focus();
+  document.execCommand('backColor', false, color || 'transparent');
+  if(_hlIsSlide) rteSlideBodyInput(body); else rteInput(body);
+  if(picker) picker.style.display = 'none';
+}
+
+function rteImage(btn){
+  var body=rteGetBody(btn); if(!body)return;
+  var inp=document.createElement('input');
+  inp.type='file'; inp.accept='image/*';
+  inp.onchange=function(e){
+    var file=e.target.files[0]; if(!file) return;
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      body.focus();
+      document.execCommand('insertHTML', false, '<img src="'+ev.target.result+'" style="max-width:100%;height:auto;border-radius:6px;">');
+      rteInput(body);
+    };
+    reader.readAsDataURL(file);
+  };
+  inp.click();
+}
+
+function rtePaste(e, el){
+  var items=(e.clipboardData||{}).items||[];
+  for(var i=0;i<items.length;i++){
+    if(items[i].type.indexOf('image')!==-1){
+      e.preventDefault();
+      var blob=items[i].getAsFile();
+      var reader=new FileReader();
+      (function(b,element){
+        b.onload=function(ev){
+          element.focus();
+          document.execCommand('insertHTML', false, '<img src="'+ev.target.result+'" style="max-width:100%;height:auto;border-radius:6px;">');
+          rteInput(element);
+        };
+        b.readAsDataURL(blob);
+      })(reader, el);
+      return;
+    }
+  }
+  // Plain text paste — strip HTML from clipboard, insert as plain text
+  e.preventDefault();
+  var text = (e.clipboardData||{}).getData('text/plain')||'';
+  document.execCommand('insertText', false, text);
+  rteInput(el);
+}
+
+// strip HTML to plain text (used for PPTX output)
+function pv(v){
+  if(!v) return '';
+  var s=String(v);
+  if(s.indexOf('<')===-1) return s;
+  var d=document.createElement('div'); d.innerHTML=s;
+  return (d.textContent||d.innerText||'').replace(/\s+/g,' ').trim();
+}
+
+// Preprocess data for PPTX/preview: substitute field__slide versions where they exist,
+// strip HTML from remaining values. Called once before any slide building.
+function resolveSlideData(data){
+  var out={};
+  Object.keys(data).forEach(function(k){
+    var val=data[k];
+    if(val&&typeof val==='object'&&!Array.isArray(val)){
+      var res={};
+      Object.keys(val).forEach(function(f){
+        if(f.indexOf('__slide')!==-1) return; // skip the __slide keys themselves
+        var slideV=val[f+'__slide'];
+        if(slideV&&typeof slideV==='string'&&pv(slideV).trim()){
+          res[f]=pv(slideV); // strip any rich-text HTML from slide version for PPTX
+        } else {
+          res[f]=pv(val[f]||'');
+        }
+      });
+      out[k]=res;
+    } else {
+      out[k]=val;
+    }
+  });
+  return out;
+}
+
+// ---- SLIDE VERSION DRAWER --------------------------------------------------
+
+function rteToggleDrawer(btn){
+  var wrap=rteGetWrap(btn);
+  if(!wrap) return;
+  var drawer=wrap.querySelector('.rte-slide-drawer');
+  var isOpen=drawer.classList.contains('open');
+  drawer.classList.toggle('open',!isOpen);
+  btn.classList.toggle('open',!isOpen);
+}
+
+
+function rteGenerateSlideField(btn){
+  var key=getApiKey();
+  if(!key){ alert('Add your Anthropic API key first (gear icon, top right).'); return; }
+  var wrap=rteGetWrap(btn); if(!wrap) return;
+  var body=wrap.querySelector('.rte-body');
+  var content=(body&&(body.innerText||body.textContent)||'').trim();
+  if(!content){ alert('The main text box is empty — add content first.'); return; }
+
+  var fieldLabel='';
+  var mf=wrap.closest('.modal-field');
+  if(mf){ var lbl=mf.querySelector('.modal-field-label'); if(lbl) fieldLabel=lbl.textContent.trim(); }
+  var stepTitle=currentModalTask?(findTask(currentModalTask.id)||{}).title||'this step':'this step';
+
+  var orig=btn.textContent; btn.disabled=true; btn.textContent='...';
+
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-6', max_tokens:350,
+      system:'You extract key information from PM workspace notes for a PowerPoint slide. Return ONLY 3-5 concise bullet points as plain text, one per line, each starting with "• ". Each bullet should be under 15 words. No markdown, no preamble, no extra text.',
+      messages:[{role:'user',content:'Step: "'+stepTitle+'"\nField: "'+fieldLabel+'"\n\nContent:\n'+content}]
+    })
+  }).then(function(r){return r.json();}).then(function(d){
+    var simplified=((d.content||[])[0]||{}).text||'';
+    if(!simplified.trim()) throw new Error('No response from AI.');
+    // Put it in the drawer textarea and save
+    var body=wrap.querySelector('.rte-slide-body');
+    if(body){ body.innerHTML=simplified.trim(); rteSlideBodyInput(body); }
+    // Open the drawer
+    var drawer=wrap.querySelector('.rte-slide-drawer');
+    var toggle=wrap.querySelector('.rte-drawer-toggle');
+    if(drawer) drawer.classList.add('open');
+    if(toggle) toggle.classList.add('open');
+  }).catch(function(e){
+    alert('Could not generate: '+(e.message||'Unknown error'));
+  }).finally(function(){
+    btn.disabled=false; btn.textContent=orig;
+  });
+}
+
+function rteClearSlideField(btn){
+  var wrap=rteGetWrap(btn); if(!wrap) return;
+  var body=wrap.querySelector('.rte-slide-body');
+  if(body){ body.innerHTML=''; rteSlideBodyInput(body); }
+  var drawer=wrap.querySelector('.rte-slide-drawer');
+  var toggle=wrap.querySelector('.rte-drawer-toggle');
+  if(drawer) drawer.classList.remove('open');
+  if(toggle) toggle.classList.remove('open');
+}
+
+// ---- SIMPLIFY STEP (all fields at once) ------------------------------------
+function rteSimplifyStep(){
+  var key=getApiKey();
+  if(!key){ alert('Add your Anthropic API key first (gear icon, top right).'); return; }
+
+  var allRtes=document.querySelectorAll('#modal-body .rte-wrap');
+  if(!allRtes.length){ alert('No rich text fields found in this step.'); return; }
+
+  var fields=[];
+  allRtes.forEach(function(w){
+    var body=w.querySelector('.rte-body');
+    var mf=w.closest('.modal-field');
+    var label=mf?((mf.querySelector('.modal-field-label')||{}).textContent||'Field').trim():'Field';
+    var content=(body&&(body.innerText||body.textContent)||'').trim();
+    if(content) fields.push({wrap:w, label:label, content:content});
+  });
+  if(!fields.length){ alert('All fields are empty — add content first.'); return; }
+
+  var btn=document.getElementById('simplify-step-btn');
+  if(btn){ btn.disabled=true; btn.innerHTML='<span style="font-size:11px;">Working...</span>'; }
+
+  var stepTitle=currentModalTask?(findTask(currentModalTask.id)||{}).title||'this step':'this step';
+  var payload=fields.map(function(f,i){return (i+1)+'. '+f.label+':\n'+f.content;}).join('\n\n');
+
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-6', max_tokens:1000,
+      system:'You extract key information from PM workspace fields for PowerPoint slides. For each numbered field, return a section starting with exactly "FIELD_N:" (N = field number) followed by 3-5 bullet points starting with "• ", each under 15 words. Skip empty fields. No other text.',
+      messages:[{role:'user',content:'Step: "'+stepTitle+'"\n\n'+payload}]
+    })
+  }).then(function(r){return r.json();}).then(function(d){
+    var text=((d.content||[])[0]||{}).text||'';
+    if(!text.trim()) throw new Error('No response from AI.');
+    // Parse FIELD_N: sections
+    var sections={};
+    var re=/FIELD_(\d+):([\s\S]*?)(?=FIELD_\d+:|$)/g;
+    var m; while((m=re.exec(text))!==null){ sections[parseInt(m[1])]=m[2].trim(); }
+    // Apply each to its drawer and open it
+    fields.forEach(function(f,i){
+      var simplified=sections[i+1];
+      if(!simplified) return;
+      var body=f.wrap.querySelector('.rte-slide-body');
+      if(body){ body.innerHTML=simplified.replace(/\n/g,'<br>'); rteSlideBodyInput(body); }
+      var drawer=f.wrap.querySelector('.rte-slide-drawer');
+      var toggle=f.wrap.querySelector('.rte-drawer-toggle');
+      if(drawer) drawer.classList.add('open');
+      if(toggle) toggle.classList.add('open');
+    });
+  }).catch(function(e){
+    alert('Could not simplify: '+(e.message||'Unknown error'));
+  }).finally(function(){
+    if(btn){
+      btn.disabled=false;
+      btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Simplify';
+    }
+  });
 }
 function inp(sk,f,ph){
   var v=(getKey(sk)||{})[f]||'';
@@ -4514,53 +5212,53 @@ function buildModalHTMLInner(modalKey,taskId){
     case 'generic': {
       var v=(getKey('note_'+taskId)||{}).notes||'';
       return mwhy('Add your notes and findings for this step.')+mws(
-        '<textarea class="big-ta" rows="6" placeholder="Notes..." oninput="saveField(\'note_'+taskId+'\',\'notes\',this.value)">'+v+'</textarea>'
+        rte('note_'+taskId,'notes','Notes...',6)
       );
     }
     case 'notes': {
       var v=(getKey('note_'+taskId)||{}).notes||'';
       return mwhy('Add your notes and findings for this step.')+mws(
-        '<textarea class="big-ta" rows="6" placeholder="Notes..." oninput="saveField(\'note_'+taskId+'\',\'notes\',this.value)">'+v+'</textarea>'
+        rte('note_'+taskId,'notes','Notes...',6)
       );
     }
     case 'hypothesis': {
       return mwhy('A hypothesis gives your team a shared, testable statement to rally around.')+mws(
-        mfld('Persona / Customer Segment', ta('hypothesis','persona','e.g. Recreation coordinators...',3))+
-        mfld('The Pain / Problem', ta('hypothesis','pain','e.g. ...struggle to manage bookings...',3))+
-        mfld('The Proposed Solution', ta('hypothesis','solution','e.g. ...adding an overnight booking feature...',3))+
-        mfld('Expected Outcome / Success Metric', ta('hypothesis','outcome','e.g. ...increase bookings by 30% within 6 months.',2))+
-        mfld('Trade-offs the Customer Must Accept', ta('hypothesis','tradeoffs','e.g. They would need to learn a new flow...',2))+
+        mfld('Persona / Customer Segment', rte('hypothesis','persona','e.g. Recreation coordinators...',3))+
+        mfld('The Pain / Problem', rte('hypothesis','pain','e.g. ...struggle to manage bookings...',3))+
+        mfld('The Proposed Solution', rte('hypothesis','solution','e.g. ...adding an overnight booking feature...',3))+
+        mfld('Expected Outcome / Success Metric', rte('hypothesis','outcome','e.g. ...increase bookings by 30% within 6 months.',2))+
+        mfld('Trade-offs the Customer Must Accept', rte('hypothesis','tradeoffs','e.g. They would need to learn a new flow...',2))+
         '<div class="hyp-preview"><div class="modal-field-label">Your hypothesis statement</div><div id="hyp-prev"></div></div>'
       );
     }
     case 'why':
       return mwhy('Your Why is not about profit. It anchors long-term strategy, culture, and success metrics.')+mws(
-        mfld('Why does this company exist?', ta('why','why','e.g. We exist to make outdoor recreation accessible...',3))+
-        mfld('How do we do it?', ta('why','how','e.g. By building intuitive software...',3))+
-        mfld('What do we do?', ta('why','what','e.g. Recreation management software for parks...',2))
+        mfld('Why does this company exist?', rte('why','why','e.g. We exist to make outdoor recreation accessible...',3))+
+        mfld('How do we do it?', rte('why','how','e.g. By building intuitive software...',3))+
+        mfld('What do we do?', rte('why','what','e.g. Recreation management software for parks...',2))
       );
     case 'fivec':
       return mwhy('The 5C framework helps you understand a company situation so you can form an opportunity hypothesis.')+mws(
-        mfld('Company', ta('fivec','company','Technology, culture, capabilities, goals...',3))+
-        mfld('Customers', ta('fivec','customers','Who are they? Segments, buying behavior, needs...',3))+
-        mfld('Collaborators', ta('fivec','collaborators','Distributors, suppliers, logistics...',2))+
-        mfld('Competitors', ta('fivec','competitors','Who competes? Strengths, weaknesses, positioning...',3))+
-        mfld('Climate', ta('fivec','climate','Cultural, regulatory, technological trends...',3))
+        mfld('Company', rte('fivec','company','Technology, culture, capabilities, goals...',3))+
+        mfld('Customers', rte('fivec','customers','Who are they? Segments, buying behavior, needs...',3))+
+        mfld('Collaborators', rte('fivec','collaborators','Distributors, suppliers, logistics...',2))+
+        mfld('Competitors', rte('fivec','competitors','Who competes? Strengths, weaknesses, positioning...',3))+
+        mfld('Climate', rte('fivec','climate','Cultural, regulatory, technological trends...',3))
       );
     case 'persona':
       return mwhy('Personas should be built around shared problems, pains, and desires -- not demographics or age.')+mws(
-        mfld('Name and Role', ta('persona','name','e.g. Sarah, Resident / Parent',1))+
-        mfld('Their Goals', ta('persona','goals','What are they trying to achieve?',3))+
-        mfld('Key Pains / Problems', ta('persona','pains','What frustrates them? What slows them down?',3))+
-        mfld('How They Measure Success', ta('persona','success','What does winning look like for them?',2))+
-        mfld('Context and Constraints', ta('persona','context','Time available, tech savviness, how they currently solve this...',3))
+        mfld('Name and Role', rte('persona','name','e.g. Sarah, Resident / Parent',1))+
+        mfld('Their Goals', rte('persona','goals','What are they trying to achieve?',3))+
+        mfld('Key Pains / Problems', rte('persona','pains','What frustrates them? What slows them down?',3))+
+        mfld('How They Measure Success', rte('persona','success','What does winning look like for them?',2))+
+        mfld('Context and Constraints', rte('persona','context','Time available, tech savviness, how they currently solve this...',3))
       );
     case 'nps':
       return mwhy('NPS runs from -100 to 100. Ask: On a scale of 1-10, how likely are you to recommend us? Promoters=9-10, Detractors=0-6.')+mws(
         mfld('Current NPS Score', inp('nps','score','e.g. 42'))+
-        mfld('Promoters say...', ta('nps','promoters','What do happy customers love?',3))+
-        mfld('Detractors say...', ta('nps','detractors','What are unhappy customers frustrated by?',3))+
-        mfld('Action Items', ta('nps','actions','What will you do differently based on this feedback?',3))
+        mfld('Promoters say...', rte('nps','promoters','What do happy customers love?',3))+
+        mfld('Detractors say...', rte('nps','detractors','What are unhappy customers frustrated by?',3))+
+        mfld('Action Items', rte('nps','actions','What will you do differently based on this feedback?',3))
       );
     case 'roadmap':
       return mwhy('Keep short-term items detailed and long-term items intentionally vague. Software: Now=3-6 months, Next=6-12 months.')+mws(
@@ -4576,10 +5274,10 @@ function buildModalHTMLInner(modalKey,taskId){
     case 'swot':
       return mwhy('If your idea does not connect to at least one top-priority SWOT item, it is likely not the right time to pursue it.')+mdiag(DIAGRAMS.swot)+mws(
         '<div class="two-col">'+
-        mfld('Strengths', ta('swot','s','What do we do well? What resources do we have?',4))+
-        mfld('Weaknesses', ta('swot','w','Where do we fall short? What could we improve?',4))+
-        mfld('Opportunities', ta('swot','o','What trends can we leverage? What market gaps exist?',4))+
-        mfld('Threats', ta('swot','t','What are competitors doing? Any regulatory risks?',4))+
+        mfld('Strengths', rte('swot','s','What do we do well? What resources do we have?',4))+
+        mfld('Weaknesses', rte('swot','w','Where do we fall short? What could we improve?',4))+
+        mfld('Opportunities', rte('swot','o','What trends can we leverage? What market gaps exist?',4))+
+        mfld('Threats', rte('swot','t','What are competitors doing? Any regulatory risks?',4))+
         '</div>'
       );
     case 'internalcheck': {
@@ -4595,42 +5293,42 @@ function buildModalHTMLInner(modalKey,taskId){
     case 'roi':
       return mwhy('Low effort, high value wins are almost always worth doing next. High effort, low value items should be dropped or deferred.')+mdiag(DIAGRAMS.roi)+mws(
         '<div class="two-col">'+
-        mfld('Do First (Low effort, high value)', ta('roi','tl','Opportunities...',4))+
-        mfld('Plan Carefully (High effort, high value)', ta('roi','tr','Opportunities...',4))+
-        mfld('Fill-in Work (Low effort, low value)', ta('roi','bl','Opportunities...',4))+
-        mfld('Avoid (High effort, low value)', ta('roi','br','Opportunities...',4))+
+        mfld('Do First (Low effort, high value)', rte('roi','tl','Opportunities...',4))+
+        mfld('Plan Carefully (High effort, high value)', rte('roi','tr','Opportunities...',4))+
+        mfld('Fill-in Work (Low effort, low value)', rte('roi','bl','Opportunities...',4))+
+        mfld('Avoid (High effort, low value)', rte('roi','br','Opportunities...',4))+
         '</div>'
       );
     case 'journey':
       return mwhy('Users already have a way of doing things. Understanding their current state, steps, motivations, hindrances, and desired outcome is essential.')+mdiag(DIAGRAMS.journey)+mws(
-        mfld('Current State', ta('journey','current','How does the user currently think and feel about this problem?',3))+
-        mfld('Journey Steps', ta('journey','steps','What steps do they take today? Include steps outside your product.',3))+
-        mfld('Motivations', ta('journey','motivations','What makes the new solution appealing?',2))+
-        mfld('Hindrances', ta('journey','hindrances','What makes switching hard? What do they like about current solution?',2))+
-        mfld('Desired State', ta('journey','desired','How do they measure success? What does winning look like?',3))
+        mfld('Current State', rte('journey','current','How does the user currently think and feel about this problem?',3))+
+        mfld('Journey Steps', rte('journey','steps','What steps do they take today? Include steps outside your product.',3))+
+        mfld('Motivations', rte('journey','motivations','What makes the new solution appealing?',2))+
+        mfld('Hindrances', rte('journey','hindrances','What makes switching hard? What do they like about current solution?',2))+
+        mfld('Desired State', rte('journey','desired','How do they measure success? What does winning look like?',3))
       );
     case 'vpc':
       return mwhy('Gaps between what customers want and what your product provides are your best opportunities.')+mdiag(DIAGRAMS.vpc)+mws(
         '<div class="two-col">'+
-        mfld('Products and Services', ta('vpc','products','What do you offer?',3))+
-        mfld('Customer Jobs', ta('vpc','jobs','What tasks are they trying to complete?',3))+
-        mfld('Gain Creators', ta('vpc','gaincreat','How do you create value and benefits?',3))+
-        mfld('Gains', ta('vpc','gains','What outcomes do they want?',3))+
-        mfld('Pain Relievers', ta('vpc','painrel','How do you eliminate customer pain?',3))+
-        mfld('Pains', ta('vpc','pains','What obstacles and frustrations do they face?',3))+
+        mfld('Products and Services', rte('vpc','products','What do you offer?',3))+
+        mfld('Customer Jobs', rte('vpc','jobs','What tasks are they trying to complete?',3))+
+        mfld('Gain Creators', rte('vpc','gaincreat','How do you create value and benefits?',3))+
+        mfld('Gains', rte('vpc','gains','What outcomes do they want?',3))+
+        mfld('Pain Relievers', rte('vpc','painrel','How do you eliminate customer pain?',3))+
+        mfld('Pains', rte('vpc','pains','What obstacles and frustrations do they face?',3))+
         '</div>'
       );
     case 'bmc':
       return mwhy('The Business Model Canvas lets you document all aspects of your product and company in one place.')+mdiag(DIAGRAMS.bmc)+mws(
-        mfld('Key Partners', ta('bmc','partners','Who outside the company makes the business model work?',2))+
-        mfld('Key Activities', ta('bmc','activities','What tasks must the company do well to deliver its value?',2))+
-        mfld('Key Resources', ta('bmc','resources','What physical, financial, intellectual, or human resources are essential?',2))+
-        mfld('Value Propositions', ta('bmc','value','What benefit or value does this product provide for each persona?',3))+
-        mfld('Customer Relationships', ta('bmc','relationships','What type of relationship do you want with each persona?',2))+
-        mfld('Channels', ta('bmc','channels','How do you reach each persona? Marketing, sales, support, distribution?',2))+
-        mfld('Customer Segments', ta('bmc','segments','Who are the most important personas?',2))+
-        mfld('Cost Structure', ta('bmc','costs','Where do your costs come from?',2))+
-        mfld('Revenue Streams', ta('bmc','revenue','How does the company earn money from each customer segment?',2))
+        mfld('Key Partners', rte('bmc','partners','Who outside the company makes the business model work?',2))+
+        mfld('Key Activities', rte('bmc','activities','What tasks must the company do well to deliver its value?',2))+
+        mfld('Key Resources', rte('bmc','resources','What physical, financial, intellectual, or human resources are essential?',2))+
+        mfld('Value Propositions', rte('bmc','value','What benefit or value does this product provide for each persona?',3))+
+        mfld('Customer Relationships', rte('bmc','relationships','What type of relationship do you want with each persona?',2))+
+        mfld('Channels', rte('bmc','channels','How do you reach each persona? Marketing, sales, support, distribution?',2))+
+        mfld('Customer Segments', rte('bmc','segments','Who are the most important personas?',2))+
+        mfld('Cost Structure', rte('bmc','costs','Where do your costs come from?',2))+
+        mfld('Revenue Streams', rte('bmc','revenue','How does the company earn money from each customer segment?',2))
       );
     case 'kano':
       return mwhy('Basic (must-have), Performance satisfiers (customers judge you on these), Delighters (unexpected wow factors). Delighters become satisfiers over time.')+mdiag(DIAGRAMS.kano)+mws(
@@ -4639,11 +5337,11 @@ function buildModalHTMLInner(modalKey,taskId){
       );
     case 'aarrr':
       return mwhy('Each large dip between stages is a potential opportunity. Fix the highest dips first.')+mdiag(DIAGRAMS.aarrr)+mws(
-        mfld('Acquisition', ta('aarrr','acquisition','How do users currently find your product? Which channels work best?',3))+
-        mfld('Activation', ta('aarrr','activation','What does a first happy experience look like? Where do users drop off?',3))+
-        mfld('Retention', ta('aarrr','retention','Do users come back? What is the retention rate? Where does it drop?',3))+
-        mfld('Referral', ta('aarrr','referral','Do users refer others? What drives referrals?',2))+
-        mfld('Revenue', ta('aarrr','revenue','How do users become paying customers? Where is the conversion drop-off?',2))
+        mfld('Acquisition', rte('aarrr','acquisition','How do users currently find your product? Which channels work best?',3))+
+        mfld('Activation', rte('aarrr','activation','What does a first happy experience look like? Where do users drop off?',3))+
+        mfld('Retention', rte('aarrr','retention','Do users come back? What is the retention rate? Where does it drop?',3))+
+        mfld('Referral', rte('aarrr','referral','Do users refer others? What drives referrals?',2))+
+        mfld('Revenue', rte('aarrr','revenue','How do users become paying customers? Where is the conversion drop-off?',2))
       );
     case 'interviewqs':
       return mwhy("Ask about what people currently do, not what they might do. 'Tell me about how you do X today' reveals reality.")+mws(
@@ -4654,138 +5352,138 @@ function buildModalHTMLInner(modalKey,taskId){
       return mwhy('After each interview, immediately pull out 5-10 key points. If nobody is excited after 5 interviews, reconsider the hypothesis.')+mws(
         '<div id="interview-list">'+renderInterviewCards()+'</div>'+
         '<button class="add-row-btn" id="interview-add">+ Add interview</button>'+
-        mfld('Overall trend / summary', ta('conclusions','summary','What pattern emerged? Did the hypothesis hold up?',3))
+        mfld('Overall trend / summary', rte('conclusions','summary','What pattern emerged? Did the hypothesis hold up?',3))
       );
     case 'pressrelease':
       return mwhy('Writing a press release before development forces you to state your target market, the problem, and how you solve it in under a page.')+mws(
-        mfld('Headline', ta('pressrelease','headline','Target market + how it helps + product name',1))+
-        mfld('Summary Paragraph', ta('pressrelease','summary','Cover the key value in 3-5 sentences. Most people only read this far.',4))+
-        mfld('Problem', ta('pressrelease','problem','What specific problem does your target customer face today?',3))+
-        mfld('Solution', ta('pressrelease','solution','How does this product solve that problem?',3))+
-        mfld('PM Quote', ta('pressrelease','pmquote','Quote from you the PM about why this is great...',2))+
-        mfld('Customer Quote', ta('pressrelease','custquote','Fictional customer quote about how it fits their life...',2))+
-        mfld('Conclusion and Call to Action', ta('pressrelease','cta','How to find, sign up for, and use the product...',3))
+        mfld('Headline', rte('pressrelease','headline','Target market + how it helps + product name',1))+
+        mfld('Summary Paragraph', rte('pressrelease','summary','Cover the key value in 3-5 sentences. Most people only read this far.',4))+
+        mfld('Problem', rte('pressrelease','problem','What specific problem does your target customer face today?',3))+
+        mfld('Solution', rte('pressrelease','solution','How does this product solve that problem?',3))+
+        mfld('PM Quote', rte('pressrelease','pmquote','Quote from you the PM about why this is great...',2))+
+        mfld('Customer Quote', rte('pressrelease','custquote','Fictional customer quote about how it fits their life...',2))+
+        mfld('Conclusion and Call to Action', rte('pressrelease','cta','How to find, sign up for, and use the product...',3))
       );
     case 'productreview':
       return mwhy('A product review forces you to think about what customers will hear. Be honest about trade-offs.')+mws(
-        mfld('What will a reviewer focus on?', ta('productreview','focus','The 2-3 things a reviewer would spend the most time evaluating?',3))+
-        mfld('What trade-offs does the product have?', ta('productreview','tradeoffs','What limitations will a reviewer call out?',3))+
-        mfld('Why should a customer choose this over competitors?', ta('productreview','differentiation','What is the unique, differentiating value?',3))+
-        mfld('Reviewer conclusion', ta('productreview','conclusion','Write the conclusion a fair reviewer would reach.',3))
+        mfld('What will a reviewer focus on?', rte('productreview','focus','The 2-3 things a reviewer would spend the most time evaluating?',3))+
+        mfld('What trade-offs does the product have?', rte('productreview','tradeoffs','What limitations will a reviewer call out?',3))+
+        mfld('Why should a customer choose this over competitors?', rte('productreview','differentiation','What is the unique, differentiating value?',3))+
+        mfld('Reviewer conclusion', rte('productreview','conclusion','Write the conclusion a fair reviewer would reach.',3))
       );
     case 'mvpdefine':
       return mwhy('The MVP is defined by working backwards from the single most important value your product delivers. Minimum does not mean bad.')+mws(
-        mfld('Overall goal and value statement', ta('mvpdefine','goal','What value does this deliver and what company goal does it serve?',3))+
-        mfld('Feature list with reasons', ta('mvpdefine','features','[Feature] so that [customer can do X]',8))+
-        mfld('Features crossed out / cut (and why)', ta('mvpdefine','cuts','e.g. Multi-language support -- not needed for initial launch',4))+
-        mfld('Delighters to protect', ta('mvpdefine','delighters','Kano wow features -- fight to keep at least one',2))
+        mfld('Overall goal and value statement', rte('mvpdefine','goal','What value does this deliver and what company goal does it serve?',3))+
+        mfld('Feature list with reasons', rte('mvpdefine','features','[Feature] so that [customer can do X]',8))+
+        mfld('Features crossed out / cut (and why)', rte('mvpdefine','cuts','e.g. Multi-language support -- not needed for initial launch',4))+
+        mfld('Delighters to protect', rte('mvpdefine','delighters','Kano wow features -- fight to keep at least one',2))
       );
     case 'prd':
       return mwhy('The PRD is a living document finished only when the product ships. Start private, share progressively, and update at every key decision point.')+mws(
-        mfld('Project title', ta('prd','title','Give this project a unique, identifying name',1))+
-        mfld('Overview', ta('prd','overview','What is this project and why are you doing it now?',3))+
-        mfld('Objectives', ta('prd','objectives','What will customers get? What are your internal goals?',4))+
-        mfld('Success metrics / KPIs', ta('prd','metrics','List only the key metrics you will watch.',3))+
-        mfld('Messaging', ta('prd','messaging','How will marketing describe this in one sentence?',2))+
-        mfld('Timeline / release planning', ta('prd','timeline','Rough milestones and target release date.',3))+
-        mfld('Personas', ta('prd','personas','Who is this for? Which is the primary persona?',2))+
-        mfld('Features IN', ta('prd','featuresin','As a [persona] I want [feature] so that [reason]',6))+
-        mfld('Features OUT', ta('prd','featuresout','What are you NOT building and why?',4))+
-        mfld('Open issues', ta('prd','issues','Unresolved questions',3))+
-        mfld('Q and A', ta('prd','qa','Common questions and answers',4))
+        mfld('Project title', rte('prd','title','Give this project a unique, identifying name',1))+
+        mfld('Overview', rte('prd','overview','What is this project and why are you doing it now?',3))+
+        mfld('Objectives', rte('prd','objectives','What will customers get? What are your internal goals?',4))+
+        mfld('Success metrics / KPIs', rte('prd','metrics','List only the key metrics you will watch.',3))+
+        mfld('Messaging', rte('prd','messaging','How will marketing describe this in one sentence?',2))+
+        mfld('Timeline / release planning', rte('prd','timeline','Rough milestones and target release date.',3))+
+        mfld('Personas', rte('prd','personas','Who is this for? Which is the primary persona?',2))+
+        mfld('Features IN', rte('prd','featuresin','As a [persona] I want [feature] so that [reason]',6))+
+        mfld('Features OUT', rte('prd','featuresout','What are you NOT building and why?',4))+
+        mfld('Open issues', rte('prd','issues','Unresolved questions',3))+
+        mfld('Q and A', rte('prd','qa','Common questions and answers',4))
       );
     case 'moscow': {
       return mwhy('The single test for a Must Have: if you remove it, does the core outcome still work for the user? If yes without it, it is not a Must Have.')+mdiag(DIAGRAMS.moscow)+mws(
-        mfld('Must Have -- required for the product to function', ta('moscow','must','List each item. One line on why removing it breaks the core outcome.',5))+
-        mfld('Should Have -- valuable if time allows', ta('moscow','should','Items that add real value but are not load-bearing.',4))+
-        mfld('Could Have -- polish for a later version', ta('moscow','could','Nice-to-haves that do not affect the core experience.',3))+
-        mfld('Will Not Have (Now) -- explicit exclusions', ta('moscow','wont','State each exclusion and why, so it does not get silently re-added mid-build.',4))
+        mfld('Must Have -- required for the product to function', rte('moscow','must','List each item. One line on why removing it breaks the core outcome.',5))+
+        mfld('Should Have -- valuable if time allows', rte('moscow','should','Items that add real value but are not load-bearing.',4))+
+        mfld('Could Have -- polish for a later version', rte('moscow','could','Nice-to-haves that do not affect the core experience.',3))+
+        mfld('Will Not Have (Now) -- explicit exclusions', rte('moscow','wont','State each exclusion and why, so it does not get silently re-added mid-build.',4))
       );
     }
     case 'simplifiedprd': {
       return mwhy('A Simplified PRD is a build-ready blueprint, distinct from your Traditional PRD. Write it tight enough that an AI prototyping tool can build directly from it.')+mws(
-        mfld('Vision -- one sentence', ta('simplifiedprd','vision','What does this replace or eliminate for the user, in one sentence?',2))+
-        mfld('Press release', ta('simplifiedprd','pressrelease','Headline + 2-3 sentences: what shipped, who it is for, why it matters now.',4))+
-        mfld('User stories with acceptance criteria', ta('simplifiedprd','stories','Given [context], when the user [does X], then the product [does Y]. List acceptance criteria under each.',6))+
-        mfld('Screens to build', ta('simplifiedprd','screens','Build exactly these screens, nothing else. Name each one and what it must contain.',5))+
-        mfld('Functional requirements', ta('simplifiedprd','functional','Specific, numbered, testable. Include load times, refresh intervals, exact states allowed.',5))+
-        mfld('Smart behaviors / response logic', ta('simplifiedprd','behaviors','If the input matches situation X, the system responds with Y. List each branch in order.',5))+
-        mfld('Technical constraints -- what not to build', ta('simplifiedprd','constraints','No external APIs, no auth, no real backend -- whatever is genuinely out of scope for the prototype.',4))+
-        mfld('Decision log', ta('simplifiedprd','decisions','Each non-obvious choice and the trade-off it protects. Future you will thank present you.',4))
+        mfld('Vision -- one sentence', rte('simplifiedprd','vision','What does this replace or eliminate for the user, in one sentence?',2))+
+        mfld('Press release', rte('simplifiedprd','pressrelease','Headline + 2-3 sentences: what shipped, who it is for, why it matters now.',4))+
+        mfld('User stories with acceptance criteria', rte('simplifiedprd','stories','Given [context], when the user [does X], then the product [does Y]. List acceptance criteria under each.',6))+
+        mfld('Screens to build', rte('simplifiedprd','screens','Build exactly these screens, nothing else. Name each one and what it must contain.',5))+
+        mfld('Functional requirements', rte('simplifiedprd','functional','Specific, numbered, testable. Include load times, refresh intervals, exact states allowed.',5))+
+        mfld('Smart behaviors / response logic', rte('simplifiedprd','behaviors','If the input matches situation X, the system responds with Y. List each branch in order.',5))+
+        mfld('Technical constraints -- what not to build', rte('simplifiedprd','constraints','No external APIs, no auth, no real backend -- whatever is genuinely out of scope for the prototype.',4))+
+        mfld('Decision log', rte('simplifiedprd','decisions','Each non-obvious choice and the trade-off it protects. Future you will thank present you.',4))
       );
     }
     case 'userscenarios':
       return mwhy('Write full paragraph stories: setup, action, result for each persona and key use case.')+mws(
-        mfld('User scenario 1 -- Primary persona, primary use case', ta('userscenarios','s1','Setup: Sarah is a resident...\n\nAction: She opens MyRec...\n\nResult: Sarah confirms the booking in under two minutes.',7))+
-        mfld('User scenario 2 -- Secondary persona or edge case', ta('userscenarios','s2','Write a second scenario...',7))+
-        mfld('User scenario 3 -- Onboarding', ta('userscenarios','s3','How does a brand new user discover and first use this feature?',5))
+        mfld('User scenario 1 -- Primary persona, primary use case', rte('userscenarios','s1','Setup: Sarah is a resident...\n\nAction: She opens MyRec...\n\nResult: Sarah confirms the booking in under two minutes.',7))+
+        mfld('User scenario 2 -- Secondary persona or edge case', rte('userscenarios','s2','Write a second scenario...',7))+
+        mfld('User scenario 3 -- Onboarding', rte('userscenarios','s3','How does a brand new user discover and first use this feature?',5))
       );
     case 'designbrief':
       return mwhy('The design brief aligns the PM and design lead on what UX you want to create before any wireframes are drawn.')+mws(
-        mfld('UX goal', ta('designbrief','goal','e.g. A booking flow so simple a coordinator completes a reservation in under 3 minutes.',3))+
-        mfld('Key design constraints', ta('designbrief','constraints','e.g. Must work on desktop and tablet. Must match brand guidelines.',3))+
-        mfld('Primary persona the design must serve', ta('designbrief','persona','Summarize the primary persona and their key needs.',3))+
-        mfld('How will we measure design success?', ta('designbrief','success','e.g. 80% of participants complete a booking without assistance.',3))
+        mfld('UX goal', rte('designbrief','goal','e.g. A booking flow so simple a coordinator completes a reservation in under 3 minutes.',3))+
+        mfld('Key design constraints', rte('designbrief','constraints','e.g. Must work on desktop and tablet. Must match brand guidelines.',3))+
+        mfld('Primary persona the design must serve', rte('designbrief','persona','Summarize the primary persona and their key needs.',3))+
+        mfld('How will we measure design success?', rte('designbrief','success','e.g. 80% of participants complete a booking without assistance.',3))
       );
     case 'wireframes':
       return mwhy('Review every wireframe by walking through your user scenarios step by step.')+mws(
-        mfld('What works?', ta('wireframes','good','What aspects of the wireframes serve the customer goal well?',3))+
-        mfld('Friction points or concerns', ta('wireframes','concerns','Where does the flow break down?',3))+
-        mfld('Questions for the design team', ta('wireframes','questions','Specific questions or requests for changes.',3))+
-        mfld('Engineering feasibility flags', ta('wireframes','engflags','Any controls flagged as expensive or problematic to build?',2))
+        mfld('What works?', rte('wireframes','good','What aspects of the wireframes serve the customer goal well?',3))+
+        mfld('Friction points or concerns', rte('wireframes','concerns','Where does the flow break down?',3))+
+        mfld('Questions for the design team', rte('wireframes','questions','Specific questions or requests for changes.',3))+
+        mfld('Engineering feasibility flags', rte('wireframes','engflags','Any controls flagged as expensive or problematic to build?',2))
       );
     case 'rams': {
       var items2=['1. Innovative -- is the design fresh?','2. Useful -- does it make the product functional AND psychologically pleasing?','3. Aesthetic -- is the visual quality integral to the experience?','4. Understandable -- can the customer use it without instructions?','5. Unobtrusive -- does it stay out of the way?','6. Honest -- does it accurately represent what the product does?','7. Long-lasting -- will it age well as styles change?','8. Thorough -- has every interaction been thought through?','9. Eco-friendly -- is it resource efficient?','10. Minimal -- can any element be removed without losing meaning?'];
       var html2='';
-      items2.forEach(function(item,i){html2+=mfld(item,ta('rams','p'+i,'Your notes...',2));});
+      items2.forEach(function(item,i){html2+=mfld(item,rte('rams','p'+i,'Your notes...',2));});
       return mwhy('These principles give you a framework for evaluating design.')+mws(html2);
     }
     case 'usabilitytesting':
       return mwhy('Usability testing checks whether customers can complete key tasks. It does not test whether the product is valuable.')+mws(
-        mfld('Tasks given to testers', ta('usabilitytesting','tasks','1. Book campsite 4 for Friday to Sunday\n2. Cancel an existing reservation',4))+
-        mfld('Success rate per task', ta('usabilitytesting','results','Task 1: 4/5 completed without assistance...',4))+
-        mfld('Key friction points observed', ta('usabilitytesting','friction','Where did users get stuck, confused, or frustrated?',4))+
-        mfld('Design changes to make', ta('usabilitytesting','changes','What will you bring back to the design team?',3))
+        mfld('Tasks given to testers', rte('usabilitytesting','tasks','1. Book campsite 4 for Friday to Sunday\n2. Cancel an existing reservation',4))+
+        mfld('Success rate per task', rte('usabilitytesting','results','Task 1: 4/5 completed without assistance...',4))+
+        mfld('Key friction points observed', rte('usabilitytesting','friction','Where did users get stuck, confused, or frustrated?',4))+
+        mfld('Design changes to make', rte('usabilitytesting','changes','What will you bring back to the design team?',3))
       );
     case 'designsprint':
       return mwhy('A week-long collaborative process to solve a big design challenge and validate with real customers in 5 days.')+mdiag(DIAGRAMS.designsprint)+mws(
-        mfld('Sprint challenge', ta('designsprint','challenge','How might we make [workflow] so simple [persona] completes it in under 3 minutes?',3))+
-        mfld('Sprint team', ta('designsprint','team','List the participants and their roles.',2))+
-        mfld('Understand -- key insights', ta('designsprint','understand','Key insights from interviews and research...',3))+
-        mfld('Define -- focused problem', ta('designsprint','define','Design objective...',2))+
-        mfld('Diverge -- key ideas', ta('designsprint','diverge','Ideas from Crazy Eights and brainstorming...',3))+
-        mfld('Decide -- which idea won?', ta('designsprint','decide','Which concept did the team vote to prototype?',2))+
-        mfld('Prototype -- what was built?', ta('designsprint','prototype','Describe the prototype...',2))+
-        mfld('Test -- customer feedback', ta('designsprint','test','Summarize customer feedback. Did the design validate?',3))
+        mfld('Sprint challenge', rte('designsprint','challenge','How might we make [workflow] so simple [persona] completes it in under 3 minutes?',3))+
+        mfld('Sprint team', rte('designsprint','team','List the participants and their roles.',2))+
+        mfld('Understand -- key insights', rte('designsprint','understand','Key insights from interviews and research...',3))+
+        mfld('Define -- focused problem', rte('designsprint','define','Design objective...',2))+
+        mfld('Diverge -- key ideas', rte('designsprint','diverge','Ideas from Crazy Eights and brainstorming...',3))+
+        mfld('Decide -- which idea won?', rte('designsprint','decide','Which concept did the team vote to prototype?',2))+
+        mfld('Prototype -- what was built?', rte('designsprint','prototype','Describe the prototype...',2))+
+        mfld('Test -- customer feedback', rte('designsprint','test','Summarize customer feedback. Did the design validate?',3))
       );
     case 'mvptypes':
       return mwhy('Four simple MVP types for validating a new idea cheaply before committing to a full build.')+mws(
-        mfld('Which MVP type are you building and why?', ta('mvptypes','choice','e.g. Fake Door MVP -- adding a button to MyRec nav showing coming soon...',4))+
-        mfld('What will you measure to determine success?', ta('mvptypes','metric','e.g. If more than 15% of logged-in users click the button within 2 weeks, proceed.',3))
+        mfld('Which MVP type are you building and why?', rte('mvptypes','choice','e.g. Fake Door MVP -- adding a button to MyRec nav showing coming soon...',4))+
+        mfld('What will you measure to determine success?', rte('mvptypes','metric','e.g. If more than 15% of logged-in users click the button within 2 weeks, proceed.',3))
       );
     case 'backlog': {
       var ev=[1,2,4,8,16];
       return mwhy('Triage each CR as Bug, UX, Feature, or Design. Score by value over effort. Align with engineering on complexity.')+mws(
-        mfld('Top Priority CRs', ta('backlog','top5','1. Registration flow too many steps -- residents abandon (HIGH)\n2. ...',6))+
-        mfld('Icebox (not this cycle)', ta('backlog','icebox','Features to revisit later...',4))+
-        mfld('Backlog health notes', ta('backlog','health','Triage process, team alignment notes...',3))
+        mfld('Top Priority CRs', rte('backlog','top5','1. Registration flow too many steps -- residents abandon (HIGH)\n2. ...',6))+
+        mfld('Icebox (not this cycle)', rte('backlog','icebox','Features to revisit later...',4))+
+        mfld('Backlog health notes', rte('backlog','health','Triage process, team alignment notes...',3))
       );
     }
     case 'engbalance':
       return mwhy('Monitor the time / quality / money triangle every sprint. When something slips, make an explicit decision -- do not let it drift.')+mdiag(DIAGRAMS.engbalance)+mws(
-        mfld('What is at risk this sprint?', ta('engbalance','risk','Time, quality, or scope?',2))+
-        mfld('What can be cut?', ta('engbalance','cuts','Features or scope to defer?',2))+
-        mfld('What is the non-negotiable?', ta('engbalance','fixed','What must ship on time and at quality?',2))+
-        mfld('Decision log', ta('engbalance','decisions','Record each trade-off decision and why.',4))
+        mfld('What is at risk this sprint?', rte('engbalance','risk','Time, quality, or scope?',2))+
+        mfld('What can be cut?', rte('engbalance','cuts','Features or scope to defer?',2))+
+        mfld('What is the non-negotiable?', rte('engbalance','fixed','What must ship on time and at quality?',2))+
+        mfld('Decision log', rte('engbalance','decisions','Record each trade-off decision and why.',4))
       );
     case 'userstories':
       return mwhy('Format: As a [persona] I want [feature] so that [reason]. Acceptance criteria define done -- no ambiguity.')+mws(
-        mfld('User stories with acceptance criteria', ta('userstories','stories','As a resident I want [feature] so that [reason].\nAcceptance criteria:\n- ...',10))
+        mfld('User stories with acceptance criteria', rte('userstories','stories','As a resident I want [feature] so that [reason].\nAcceptance criteria:\n- ...',10))
       );
     default: {
       var v=(getKey('note_'+taskId)||{}).notes||'';
       return mwhy('Add your notes and findings for this step.')+mws(
-        '<textarea class="big-ta" rows="6" placeholder="Notes..." oninput="saveField(\'note_'+taskId+'\',\'notes\',this.value)">'+v+'</textarea>'
+        rte('note_'+taskId,'notes','Notes...',6)
       );
     }
   }
@@ -5208,6 +5906,8 @@ function deckHdr(slide, title, sub, taskId){
 
 function deckFrow(slide, label, val, x, y, w, h){
   if(!val) return y;
+  val = pv(val); // strip any rich-text HTML before rendering to PPTX
+  if(!val) return y;
   slide.addText(label, { x:x, y:y, w:w, h:0.32, fontFace:'Open Sans SemiBold', fontSize:14, bold:true, color:DECK_TXT });
   slide.addText(val, { x:x, y:y+0.34, w:w, h:h-0.34, fontFace:'Open Sans Light', fontSize:18, color:DECK_TXT, valign:'top' });
   return y + h + 0.18;
@@ -5221,6 +5921,8 @@ var DECK_SLIDE_MAX_Y = 5.2; // bottom safe margin on a 5.63in-tall slide
 // content run past the bottom edge or silently dropping it. Returns
 // {slide, y} since the active slide can change mid-call.
 function deckFrowFlow(pptx, slide, title, label, val, x, y, w, h){
+  if(!val) return { slide: slide, y: y };
+  val = pv(val); // strip rich-text HTML
   if(!val) return { slide: slide, y: y };
   // The caller's h is sized for a "typical" short answer -- but deckFrow's
   // body text is 18pt Open Sans Light, and a long answer wraps to more
@@ -5243,6 +5945,7 @@ function deckFrowFlow(pptx, slide, title, label, val, x, y, w, h){
 }
 
 function deckTwoCol(slide, labelL, valL, labelR, valR, y){
+  valL = pv(valL); valR = pv(valR);
   var lw=4.3, rw=4.3, lx=0.5, rx=5.1;
   // Estimate real height from the longer of the two columns' text, the
   // same way deckFrowFlow does for single-column rows -- a fixed height
@@ -5310,7 +6013,7 @@ function deckBulletText(lines, sz){
 var DECK_SLIDE_BUILDERS = {
 
   generic: function(pptx, title, data, taskId){
-    var notes = ((data['note_'+taskId]||{}).notes||'').trim();
+    var notes = pv((data['note_'+taskId]||{}).notes||'').trim();
     if(!notes) return 0;
     // A single free-text field has no natural break points the way
     // labeled rows do, so estimate how much fits in one slide's text box
@@ -5749,11 +6452,11 @@ function deckHasData(modal, taskId, data){
   if(!isStepIncludedInDeck(taskId, data)) return false;
   if(DECK_NOTES_MODALS.indexOf(modal) >= 0){
     var nd = data['note_'+taskId] || {};
-    return !!(nd.notes && String(nd.notes).trim());
+    return !!(nd.notes && pv(String(nd.notes)).trim());
   }
   var d = data[modal];
   if(d && typeof d === 'object' && !Array.isArray(d)){
-    return Object.keys(d).some(function(k){ return d[k] && String(d[k]).trim(); });
+    return Object.keys(d).some(function(k){ return d[k] && pv(String(d[k])).trim(); });
   }
   if(Array.isArray(d)) return d.length > 0;
   return !!d;
@@ -5780,7 +6483,7 @@ function generateDeckClientSide(projectName, payload, templateId){
   var _origAddSlide = pptx.addSlide.bind(pptx);
   pptx.addSlide = function(){ realSlideCount++; return _origAddSlide.apply(pptx, arguments); };
 
-  var data = (payload && payload.data) || {};
+  var data = resolveSlideData((payload && payload.data) || {});
   _activeDeckData = data;
   var tasks = (payload && payload.tasks) || [];
 
@@ -5875,5 +6578,14 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 });
 </script>
+<div id="hl-picker">
+  <button class="hl-swatch" onmousedown="event.preventDefault();rteApplyHL(this,'#FECACA')" style="background:#FECACA;" title="Red"></button>
+  <button class="hl-swatch" onmousedown="event.preventDefault();rteApplyHL(this,'#FEF08A')" style="background:#FEF08A;" title="Yellow"></button>
+  <button class="hl-swatch" onmousedown="event.preventDefault();rteApplyHL(this,'#FED7AA')" style="background:#FED7AA;" title="Orange"></button>
+  <button class="hl-swatch" onmousedown="event.preventDefault();rteApplyHL(this,'#BBF7D0')" style="background:#BBF7D0;" title="Green"></button>
+  <button class="hl-swatch" onmousedown="event.preventDefault();rteApplyHL(this,'#BFDBFE')" style="background:#BFDBFE;" title="Blue"></button>
+  <button class="hl-swatch" onmousedown="event.preventDefault();rteApplyHL(this,'#E9D5FF')" style="background:#E9D5FF;" title="Purple"></button>
+  <button class="hl-clear" onmousedown="event.preventDefault();rteApplyHL(this,null)" title="Remove highlight">✕</button>
+</div>
 </body>
 </html>
