@@ -612,8 +612,29 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
     <footer style="background:var(--text);padding:2rem 5vw;text-align:center;">
       <span style="font-family:'DM Serif Display',serif;font-size:1rem;color:rgba(255,255,255,.5);font-weight:400;">PM Product Playbook</span>
       <p style="font-size:.7rem;color:rgba(255,255,255,.3);margin:.5rem 0 0;">Built for product managers who ship.</p>
+      <p style="font-size:.68rem;color:rgba(255,255,255,.25);margin:1rem 0 0;">
+        © <span id="footer-year"></span> PM Product Playbook. All rights reserved.
+        &nbsp;·&nbsp;
+        <button onclick="openTermsModal()" style="background:none;border:none;color:rgba(255,255,255,.4);text-decoration:underline;cursor:pointer;font-size:inherit;font-family:inherit;padding:0;">Terms of Service</button>
+      </p>
     </footer>
 
+  </div>
+
+  <!-- TERMS OF SERVICE MODAL -->
+  <div id="terms-modal" onclick="if(event.target===this)closeTermsModal()" style="display:none;position:fixed;inset:0;background:rgba(20,18,15,.6);z-index:99999;align-items:center;justify-content:center;padding:1rem;">
+    <div style="background:var(--surface);border-radius:18px;width:100%;max-width:560px;max-height:80vh;overflow-y:auto;padding:2.25rem;box-shadow:0 24px 60px rgba(0,0,0,.25);position:relative;">
+      <button onclick="closeTermsModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--faint);font-size:1.3rem;line-height:1;padding:4px;">&times;</button>
+      <h2 style="font-family:'DM Serif Display',serif;font-size:1.5rem;font-weight:400;letter-spacing:-.02em;margin:0 0 1.25rem;color:var(--text);">Terms of Service</h2>
+      <div style="font-size:.82rem;color:var(--muted);line-height:1.7;">
+        <p><strong style="color:var(--text);">1. Ownership.</strong> PM Product Playbook, including its name, design, structure, written content, and underlying source code, is the proprietary property of its creator. All rights not expressly granted to you are reserved.</p>
+        <p><strong style="color:var(--text);">2. Permitted use.</strong> You may use this application to manage your own product workflows. You may not copy, reproduce, distribute, reverse-engineer, resell, or create derivative products based on this application's design, structure, or source code without prior written permission.</p>
+        <p><strong style="color:var(--text);">3. Your data.</strong> You retain ownership of the project content you create. We store it to provide the service to you and do not claim ownership over it.</p>
+        <p><strong style="color:var(--text);">4. No warranty.</strong> This application is provided "as is" without warranty of any kind. Use it at your own discretion.</p>
+        <p><strong style="color:var(--text);">5. Changes.</strong> These terms may be updated from time to time. Continued use of the application after changes constitutes acceptance of the updated terms.</p>
+        <p style="margin-top:1.5rem;font-size:.74rem;color:var(--faint);">Last updated: <span id="terms-updated-date"></span></p>
+      </div>
+    </div>
   </div>
 
   <!-- SIGN-IN POPUP -->
@@ -4921,6 +4942,25 @@ function setHeaderLoggedOut(){
   if(out) out.style.display='inline-block';
   if(inn) inn.style.display='none';
 }
+
+function openTermsModal(){
+  var m=document.getElementById('terms-modal');
+  if(!m) return;
+  m.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeTermsModal(){
+  var m=document.getElementById('terms-modal');
+  if(!m) return;
+  m.style.display='none';
+  document.body.style.overflow='';
+}
+(function(){
+  var yearEl=document.getElementById('footer-year');
+  if(yearEl) yearEl.textContent = new Date().getFullYear();
+  var updEl=document.getElementById('terms-updated-date');
+  if(updEl) updEl.textContent = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+})();
 
 function openAdminPortal(){
   if(currentUserEmail !== ADMIN_EMAIL){ return; }
