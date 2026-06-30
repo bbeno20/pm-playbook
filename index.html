@@ -380,13 +380,19 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
     <span id="gh-logged-out">
       <button onclick="openSigninModal()" style="font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 16px;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Sign in →</button>
     </span>
-    <span id="gh-logged-in" style="display:none;font-size:.75rem;color:var(--faint);align-items:center;gap:8px;">
-      <span id="signed-in-email"></span>
-      <button id="admin-portal-btn" onclick="openAdminPortal()" style="display:none;background:none;border:1px solid var(--border-strong);color:var(--accent);border-radius:6px;padding:3px 9px;cursor:pointer;font-size:.72rem;font-family:inherit;">View administrative portal</button>
-      <button onclick="signOut()" style="background:none;border:none;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:inherit;font-family:inherit;">Sign out</button>
+    <span id="gh-logged-in" style="display:none;">
+      <button onclick="signOut()" style="font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 16px;cursor:pointer;transition:opacity .2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Sign out</button>
     </span>
   </div>
 </nav>
+
+<!-- Email, shown just below the fixed header on the home page only -->
+<div id="signed-in-email-row" style="display:none;text-align:right;max-width:1100px;margin:0 auto;padding:6px 5vw 0;font-size:.75rem;color:var(--faint);">
+  <span id="signed-in-email"></span>
+</div>
+
+<!-- Admin portal link, fixed bottom-right, admin only -->
+<button id="admin-portal-btn" onclick="openAdminPortal()" style="display:none;position:fixed;bottom:18px;right:18px;z-index:999;background:var(--surface);border:1px solid var(--border-strong);color:var(--accent);border-radius:8px;padding:8px 14px;cursor:pointer;font-size:.78rem;font-family:inherit;font-weight:500;box-shadow:0 4px 14px rgba(0,0,0,.1);">View administrative portal</button>
 
 <div class="container">
 
@@ -763,48 +769,58 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
 
     <!-- Faint skyline footer graphic -->
     <div style="margin-top:3rem;width:100vw;position:relative;left:50%;margin-left:-50vw;overflow:hidden;line-height:0;pointer-events:none;">
-      <svg viewBox="0 0 1400 220" preserveAspectRatio="xMidYMax slice" style="width:100%;height:170px;display:block;" xmlns="http://www.w3.org/2000/svg">
-        <g fill="none" stroke="#D8D4CA" stroke-width="1.4">
-          <rect x="10" y="120" width="40" height="100"/>
-          <rect x="55" y="90" width="30" height="130"/>
-          <polyline points="100,120 100,90 115,70 130,90 130,120"/>
-          <rect x="150" y="60" width="46" height="160"/>
-          <rect x="205" y="100" width="26" height="120"/>
-          <rect x="240" y="130" width="34" height="90"/>
-          <rect x="285" y="40" width="38" height="180"/>
-          <rect x="330" y="95" width="28" height="125"/>
-          <rect x="368" y="70" width="22" height="150"/>
-          <polyline points="400,120 400,80 412,80 412,60 424,60 424,80 436,80 436,120"/>
-          <rect x="450" y="30" width="50" height="190"/>
-          <rect x="510" y="100" width="24" height="120"/>
-          <rect x="545" y="55" width="36" height="165"/>
-          <rect x="590" y="110" width="30" height="110"/>
-          <polygon points="635,120 635,40 660,10 685,40 685,120"/>
-          <rect x="700" y="80" width="40" height="140"/>
-          <rect x="750" y="115" width="26" height="105"/>
-          <rect x="785" y="50" width="34" height="170"/>
-          <rect x="828" y="95" width="28" height="125"/>
-          <rect x="865" y="65" width="22" height="155"/>
-          <polyline points="897,120 897,75 909,75 909,55 921,55 921,75 933,75 933,120"/>
-          <rect x="945" y="35" width="48" height="185"/>
-          <rect x="1000" y="105" width="24" height="115"/>
-          <rect x="1034" y="60" width="36" height="160"/>
-          <rect x="1078" y="115" width="30" height="105"/>
-          <rect x="1118" y="85" width="40" height="135"/>
-          <polygon points="1170,120 1170,50 1190,25 1210,50 1210,120"/>
-          <rect x="1225" y="100" width="26" height="120"/>
-          <rect x="1260" y="60" width="34" height="160"/>
-          <rect x="1303" y="110" width="28" height="110"/>
-          <rect x="1340" y="80" width="50" height="140"/>
-          <!-- windows -->
-          <g stroke="#E3E0D8" stroke-width="1">
-            <line x1="160" y1="80" x2="186" y2="80"/><line x1="160" y1="110" x2="186" y2="110"/><line x1="160" y1="140" x2="186" y2="140"/><line x1="160" y1="170" x2="186" y2="170"/>
-            <line x1="460" y1="55" x2="490" y2="55"/><line x1="460" y1="85" x2="490" y2="85"/><line x1="460" y1="115" x2="490" y2="115"/><line x1="460" y1="145" x2="490" y2="145"/><line x1="460" y1="175" x2="490" y2="175"/>
-            <line x1="955" y1="60" x2="983" y2="60"/><line x1="955" y1="90" x2="983" y2="90"/><line x1="955" y1="120" x2="983" y2="120"/><line x1="955" y1="150" x2="983" y2="150"/><line x1="955" y1="180" x2="983" y2="180"/>
-          </g>
+      <svg viewBox="0 0 1400 230" preserveAspectRatio="xMidYMax slice" style="width:100%;height:170px;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="skyWin" width="13" height="13" patternUnits="userSpaceOnUse">
+            <rect width="13" height="13" fill="none"/>
+            <line x1="0" y1="13" x2="13" y2="13" stroke="#E4E1D8" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <g fill="url(#skyWin)" stroke="#D6D2C7" stroke-width="1.3">
+          <rect x="0"    y="120" width="34" height="110"/>
+          <rect x="34"   y="150" width="26" height="80"/>
+          <rect x="62"   y="95"  width="30" height="135"/>
+          <rect x="94"   y="135" width="22" height="95"/>
+          <rect x="118"  y="70"  width="36" height="160"/>
+          <rect x="156"  y="110" width="24" height="120"/>
+          <polygon points="182,230 182,150 196,150 196,120 210,120 210,150 224,150 224,230"/>
+          <rect x="228"  y="160" width="28" height="70"/>
+          <rect x="260"  y="55"  width="40" height="175"/>
+          <rect x="304"  y="100" width="26" height="130"/>
+          <rect x="334"  y="140" width="32" height="90"/>
+          <rect x="370"  y="80"  width="28" height="150"/>
+          <polygon points="402,230 402,140 414,100 426,140 426,230"/>
+          <rect x="430"  y="115" width="24" height="115"/>
+          <rect x="458"  y="40"  width="46" height="190"/>
+          <rect x="508"  y="125" width="22" height="105"/>
+          <rect x="534"  y="90"  width="34" height="140"/>
+          <rect x="572"  y="150" width="26" height="80"/>
+          <rect x="602"  y="65"  width="38" height="165"/>
+          <rect x="644"  y="135" width="24" height="95"/>
+          <polygon points="672,230 672,80 696,40 720,80 720,230"/>
+          <rect x="724"  y="110" width="28" height="120"/>
+          <rect x="756"  y="155" width="22" height="75"/>
+          <rect x="782"  y="60"  width="42" height="170"/>
+          <rect x="828"  y="120" width="26" height="110"/>
+          <rect x="858"  y="95"  width="30" height="135"/>
+          <rect x="892"  y="145" width="24" height="85"/>
+          <polygon points="920,230 920,140 932,140 932,120 944,120 944,140 956,140 956,230"/>
+          <rect x="960"  y="70"  width="36" height="160"/>
+          <rect x="1000" y="130" width="22" height="100"/>
+          <rect x="1026" y="45"  width="48" height="185"/>
+          <rect x="1078" y="115" width="26" height="115"/>
+          <rect x="1108" y="160" width="28" height="70"/>
+          <rect x="1140" y="85"  width="32" height="145"/>
+          <polygon points="1176,230 1176,120 1200,85 1224,120 1224,230"/>
+          <rect x="1228" y="150" width="24" height="80"/>
+          <rect x="1256" y="100" width="30" height="130"/>
+          <rect x="1290" y="140" width="22" height="90"/>
+          <rect x="1316" y="60"  width="40" height="170"/>
+          <rect x="1360" y="125" width="40" height="105"/>
         </g>
       </svg>
     </div>
+
   </div>
 
   <!-- -- ADMIN PORTAL PAGE ------------------------------------------- -->
@@ -4862,13 +4878,19 @@ function openModal(taskId,modalKey){
 function setHeaderLoggedIn(){
   var out=document.getElementById('gh-logged-out'), inn=document.getElementById('gh-logged-in');
   if(out) out.style.display='none';
-  if(inn) inn.style.display='inline-flex';
+  if(inn) inn.style.display='inline-block';
+  var emailRow=document.getElementById('signed-in-email-row');
   var emailEl=document.getElementById('signed-in-email');
   if(emailEl && currentUserEmail) emailEl.textContent = currentUserEmail;
+  if(emailRow) emailRow.style.display = 'block';
   var adminBtn=document.getElementById('admin-portal-btn');
-  if(adminBtn) adminBtn.style.display = (currentUserEmail === ADMIN_EMAIL) ? 'inline-block' : 'none';
+  if(adminBtn) adminBtn.style.display = (currentUserEmail === ADMIN_EMAIL) ? 'block' : 'none';
 }
 function setHeaderLoggedOut(){
+  var emailRow=document.getElementById('signed-in-email-row');
+  if(emailRow) emailRow.style.display = 'none';
+  var adminBtn=document.getElementById('admin-portal-btn');
+  if(adminBtn) adminBtn.style.display = 'none';
   var out=document.getElementById('gh-logged-out'), inn=document.getElementById('gh-logged-in');
   if(out) out.style.display='inline-block';
   if(inn) inn.style.display='none';
