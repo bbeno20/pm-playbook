@@ -623,7 +623,7 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
   </div>
 
   <!-- TERMS OF SERVICE MODAL -->
-  <div id="terms-modal" onclick="if(event.target===this)closeTermsModal()" style="display:none;position:fixed;inset:0;background:rgba(20,18,15,.6);z-index:99999;align-items:center;justify-content:center;padding:1rem;">
+  <div id="terms-modal" onmousedown="this._mdT=event.target" onclick="if(event.target===this && this._mdT===this)closeTermsModal()" style="display:none;position:fixed;inset:0;background:rgba(20,18,15,.6);z-index:99999;align-items:center;justify-content:center;padding:1rem;">
     <div style="background:var(--surface);border-radius:18px;width:100%;max-width:560px;max-height:80vh;overflow-y:auto;padding:2.25rem;box-shadow:0 24px 60px rgba(0,0,0,.25);position:relative;">
       <button onclick="closeTermsModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--faint);font-size:1.3rem;line-height:1;padding:4px;">&times;</button>
       <h2 style="font-family:'DM Serif Display',serif;font-size:1.5rem;font-weight:400;letter-spacing:-.02em;margin:0 0 1.25rem;color:var(--text);">Terms of Service</h2>
@@ -639,7 +639,7 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
   </div>
 
   <!-- SIGN-IN POPUP -->
-  <div id="signin-modal" onclick="if(event.target===this)closeSigninModal()" style="display:none;position:fixed;inset:0;background:rgba(20,18,15,.6);z-index:99999;align-items:center;justify-content:center;padding:1rem;">
+  <div id="signin-modal" onmousedown="this._mdT=event.target" onclick="if(event.target===this && this._mdT===this)closeSigninModal()" style="display:none;position:fixed;inset:0;background:rgba(20,18,15,.6);z-index:99999;align-items:center;justify-content:center;padding:1rem;">
     <div style="background:var(--surface);border-radius:18px;width:100%;max-width:420px;padding:2.5rem;box-shadow:0 24px 60px rgba(0,0,0,.25);position:relative;animation:modalIn .2s ease;">
       <button onclick="closeSigninModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--faint);font-size:1.3rem;line-height:1;padding:4px;">&times;</button>
 
@@ -1008,7 +1008,7 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
 </div>
 
 <!-- Modal -->
-<div class="mobile-preview-overlay" id="mobile-preview-overlay" onclick="if(event.target===this)closeMobilePreview()">
+<div class="mobile-preview-overlay" id="mobile-preview-overlay" onmousedown="this._mdT=event.target" onclick="if(event.target===this && this._mdT===this)closeMobilePreview()">
   <div class="mobile-preview-card">
     <button class="mobile-preview-close" onclick="closeMobilePreview()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -1023,7 +1023,7 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
   </div>
 </div>
 
-<div class="present-mode-overlay" id="company-push-confirm-overlay" style="z-index:400;" onclick="if(event.target===this)cancelCompanyPushConfirm()">
+<div class="present-mode-overlay" id="company-push-confirm-overlay" style="z-index:400;" onmousedown="this._mdT=event.target" onclick="if(event.target===this && this._mdT===this)cancelCompanyPushConfirm()">
   <div style="background:var(--surface);border-radius:14px;max-width:420px;padding:22px 24px;color:var(--text);">
     <div style="font-weight:600;font-size:15px;margin-bottom:10px;">This can't be undone</div>
     <div id="company-push-confirm-message" style="font-size:13.5px;line-height:1.5;color:var(--muted);margin-bottom:18px;"></div>
@@ -1034,7 +1034,7 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
   </div>
 </div>
 
-<div class="present-mode-overlay" id="present-mode-overlay" onclick="if(event.target===this)closePresentMode()">
+<div class="present-mode-overlay" id="present-mode-overlay" onmousedown="this._mdT=event.target" onclick="if(event.target===this && this._mdT===this)closePresentMode()">
   <button class="present-mode-close" onclick="closePresentMode()">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
   </button>
@@ -1052,7 +1052,7 @@ header p{font-size:.8rem;color:var(--muted);font-weight:300}
   </div>
 </div>
 
-<div class="modal-panel" id="modal-panel" onclick="if(event.target===this)closeModal()">
+<div class="modal-panel" id="modal-panel" onmousedown="this._mdT=event.target" onclick="if(event.target===this && this._mdT===this)closeModal()">
     <div class="modal-card">
       <div class="modal-header">
         <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1;">
